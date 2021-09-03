@@ -3,9 +3,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{% url 'admin_home' %}" class="brand-link">
-        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        <img src="{% static './linco.png' %}" alt="AdminLTE Logo" class="brand-image  elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">⭐️Lincoln University</span>
+        <span class="brand-text font-weight-light">Lincoln University</span>
       </a>
 
       <!-- Sidebar -->
@@ -42,7 +42,7 @@
               <a href="{{ manage_staff }}" class="nav-link {% if request.path == manage_staff %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 <p>
-                  Manage Staff
+                  Manage Lecturers
                 </p>
               </a>
             </li>
@@ -52,7 +52,7 @@
               <a href="{{ add_staff }}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
-                  Add Staff
+                  Add Lecturer
                 </p>
               </a>
             </li>
@@ -148,7 +148,7 @@
               <a href="{{ admin_view_attendance }}" class="nav-link {% if request.path == admin_view_attendance %} active {% endif %}">
                 <i class="nav-icon fas fa-calendar-alt"></i>
                 <p>
-                  View Attendance1
+                  View Attendance
                 </p>
               </a>
             </li>

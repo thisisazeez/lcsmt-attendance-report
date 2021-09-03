@@ -132,7 +132,7 @@ def student_profile_update(request):
 
 def student_view_result(request):
     student = Students.objects.get(admin=request.user.id)
-    student_result = StudentResult.objects.filter(student_id=student.id)
+    student_result = StudentResult.objects.filter(id=student.id)
     context = {
         "student_result": student_result,
     }

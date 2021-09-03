@@ -46,7 +46,7 @@ def admin_home(request):
 
     staffs = Staffs.objects.all()
     for staff in staffs:
-        subject_ids = Subjects.objects.filter(staff_id=staff.admin.id)
+        subject_ids = Subjects.objects.filter(id=staff.admin.id)
         attendance = Attendance.objects.filter(subject_id__in=subject_ids).count()
         staff_attendance_present_list.append(attendance)
         staff_name_list.append(staff.admin.first_name)

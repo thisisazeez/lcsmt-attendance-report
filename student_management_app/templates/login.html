@@ -3,10 +3,13 @@
 
 {% block content %}
 
-    <body class="hold-transition login-page">
+    <body class="hold-transition login-page" style="background-color: rgb(17, 16, 16);">
 <div class="login-box">
   <div class="login-logo">
-    <a href="{% url 'login' %}"><b>Student </b>Management System</a>
+    <img src="{% static './linco.png' %}">
+    <div class="row">
+         <a href="{% url 'login' %}" style="color: white;"><b>Student </b>Management System</a>
+    </div>
   </div>
   <!-- /.login-logo -->
   <div class="card">
