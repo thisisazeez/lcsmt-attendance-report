@@ -79,6 +79,28 @@
             </li>
 
             <li class="nav-item">
+              {% url 'manage_department' as manage_department %}
+              {% url 'edit_department' department_id=id as edit_department %}
+              <a href="{{ manage_department }}" class="nav-link {% if request.path == manage_department %} active {% endif %} {% if request.path == edit_department %} active {% endif %}">
+                <i class="nav-icon fas fa-chalkboard"></i>
+                <p>
+                  Manage Department
+                </p>
+              </a>
+            </li>
+
+
+            <li class="nav-item">
+              {% url 'add_department' as add_department %}
+                <a href="{{ add_department }}" class="nav-link {% if request.path == add_department %} active {% endif %}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Add Department
+                  </p>
+                </a>
+              </li>
+
+            <li class="nav-item">
               {% url 'manage_course' as manage_course %}
               {% url 'edit_course' course_id=id as edit_course %}
               <a href="{{ manage_course }}" class="nav-link {% if request.path == manage_course %} active {% endif %} {% if request.path == edit_course %} active {% endif %}">

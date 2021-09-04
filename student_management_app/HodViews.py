@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport
+from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport
 from .forms import AddStudentForm, EditStudentForm
 
 
@@ -97,7 +97,7 @@ def add_staff_save(request):
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         email = request.POST.get('email')
-        password = request.POST.get('password')
+        password = "lincoln12345"
         address = request.POST.get('address')
 
         try:
@@ -137,6 +137,7 @@ def edit_staff_save(request):
         staff_id = request.POST.get('staff_id')
         username = request.POST.get('username')
         email = request.POST.get('email')
+        password = request.POST.get('password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         address = request.POST.get('address')
@@ -147,6 +148,8 @@ def edit_staff_save(request):
             user.first_name = first_name
             user.last_name = last_name
             user.email = email
+            if password != None and password != "":
+                user.set_password(password)
             user.username = username
             user.save()
             
@@ -175,6 +178,72 @@ def delete_staff(request, staff_id):
         return redirect('manage_staff')
 
 
+
+def add_department(request):
+    return render(request, "hod_template/add_department_template.html")
+
+
+def add_department_save(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('add_department')
+    else:
+        department = request.POST.get('department')
+        try:
+            department_model = Departments(department_name=department)
+            department_model.save()
+            messages.success(request, "Department Added Successfully!")
+            return redirect('add_department')
+        except:
+            messages.error(request, "Failed to Add Department!")
+            return redirect('add_department')
+
+def manage_department(request):
+    departments = Departments.objects.all()
+    context = {
+        "departments": departments
+    }
+    return render(request, 'hod_template/manage_department_template.html', context)
+
+
+def edit_department(request, department_id):
+    department = Departments.objects.get(id=department_id)
+    context = {
+        "department": department,
+        "id": department_id
+    }
+    return render(request, 'hod_template/edit_department_template.html', context)
+
+
+def edit_department_save(request):
+    if request.method != "POST":
+        HttpResponse("Invalid Method")
+    else:
+        department_id = request.POST.get('department_id')
+        department_name = request.POST.get('department')
+
+        try:
+            department = Departments.objects.get(id=department_id)
+            department.department_name = department_name
+            department.save()
+
+            messages.success(request, "department Updated Successfully.")
+            return redirect('/edit_department/'+department_id)
+
+        except:
+            messages.error(request, "Failed to Update department.")
+            return redirect('/edit_department/'+department_id)
+
+
+def delete_department(request, department_id):
+    department = Departments.objects.get(id=department_id)
+    try:
+        department.delete()
+        messages.success(request, "department Deleted Successfully.")
+        return redirect('manage_department')
+    except:
+        messages.error(request, "Failed to Delete department.")
+        return redirect('manage_department')
 
 
 def add_course(request):

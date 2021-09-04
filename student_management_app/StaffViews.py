@@ -63,7 +63,7 @@ def staff_home(request):
     }
     return render(request, "staff_template/staff_home_template.html", context)
 
-
+ 
 
 def staff_take_attendance(request):
     subjects = Subjects.objects.filter(id=request.user.id)
