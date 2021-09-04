@@ -1,13 +1,13 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Edit Staff | Username: {{ staff.admin.username }} | #ID : {{ staff.admin.id }}
+    Edit Department | #ID : {{ department.id }}
 {% endblock page_title %}
 
 {% block main_content %}
 
 {% load static %}
-
+ 
 <section class="content">
         <div class="container-fluid">
 
@@ -16,11 +16,11 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Staff</h3>
+                        <h3 class="card-title">Edit Department</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'edit_staff_save' %}">
+                    <form role="form" method="POST" action="{% url 'edit_department_save' %}">
                         {% csrf_token %}
 
                         
@@ -52,50 +52,16 @@
 
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Email address</label>
-                                <input type="email" class="form-control" name="email" value="{{ staff.admin.email }}">
+                                <label>Department Name </label>
+                                <input type="text" class="form-control" name="department" value="{{ department.department_name }}">
+                                <input type="hidden" name="department_id" value="{{ department.id }}" />
                             </div>
-
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" value="{{ staff.admin.username }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Change Password?">
-                            </div>
-
-                            <div class="form-group">
-                                <label>First Name</label>
-                                <input type="text" class="form-control" name="first_name" value="{{ staff.admin.first_name }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input type="text" class="form-control" name="last_name" value="{{ staff.admin.last_name }}">
-                                <input type="hidden" name="staff_id" value="{{ staff.admin.id }}" />
-                            </div>
-
-                            
-                            <div class="form-group">
-                                <label>Staff ID</label>
-                                <input type="id" class="form-control" name="id" placeholder="LUC/STAFF/0090">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" name="address">{{ staff.address }}</textarea>
-                            </div>
-
-                            
-
 
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Update Staff</button>
+                        <button type="submit" class="btn btn-primary">Update Department</button>
                         </div>
                     </form>
                     </div>
