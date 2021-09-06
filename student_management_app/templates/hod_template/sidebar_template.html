@@ -58,6 +58,28 @@
             </li>
 
             <li class="nav-item">
+              {% url 'manage_intake' as manage_intake %}
+              {% url 'edit_intake' intake_id=id as edit_intake %}
+              <a href="{{ manage_intake }}" class="nav-link {% if request.path == manage_intake %} active {% endif %} {% if request.path == edit_intake %} active {% endif %}">
+                <i class="nav-icon fas fa-chalkboard"></i>
+                <p>
+                  Manage Intake
+                </p>
+              </a>
+            </li>
+
+
+            <li class="nav-item">
+              {% url 'add_intake' as add_intake %}
+                <a href="{{ add_intake }}" class="nav-link {% if request.path == add_intake %} active {% endif %}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Add Intake
+                  </p>
+                </a>
+              </li>
+
+            <li class="nav-item">
               {% url 'manage_student' as manage_student %}
               {% url 'edit_student' student_id=id as edit_student %}
               <a href="{{ manage_student }}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">

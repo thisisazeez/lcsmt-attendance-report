@@ -24,8 +24,8 @@ def admin_home(request):
     student_count_list_in_course = []
 
     for course in course_all:
-        subjects = Subjects.objects.filter(course_id=course.id).count()
-        students = Students.objects.filter(course_id=course.id).count()
+        subjects = Subjects.objects.filter(id=course.id).count()
+        students = Students.objects.filter(id=course.id).count()
         course_name_list.append(course.course_name)
         subject_count_list.append(subjects)
         student_count_list_in_course.append(students)
@@ -35,7 +35,7 @@ def admin_home(request):
     student_count_list_in_subject = []
     for subject in subject_all:
         course = Courses.objects.get(id=subject.course_id.id)
-        student_count = Students.objects.filter(course_id=course.id).count()
+        student_count = Students.objects.filter(id=course.id).count()
         subject_list.append(subject.subject_name)
         student_count_list_in_subject.append(student_count)
     
