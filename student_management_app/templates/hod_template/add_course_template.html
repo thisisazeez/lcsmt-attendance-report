@@ -55,11 +55,18 @@
                                 <label>Course Name </label>
                                 <input type="text" class="form-control" name="course" placeholder="Enter Course">
                             </div>
-
                             <div class="form-group">
-                                <label>Department</label>
-                                <input type="text" class="form-control" name="department" placeholder="Choose Department">
+                                <label>Department </label>
+                                <select class="form-control" name="department" placeholder="Choose Department">
+                                    {% for department in departments %}
+                                        <option value="{{ department.id }}">{{ department.department_name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
+                            <!-- <div class="form-group">
+                                <label>Department</label>
+                                <input type="text" class="form-control" name="" >
+                            </div> -->
 
                         </div>
                         <!-- /.card-body -->

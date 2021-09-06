@@ -97,7 +97,7 @@ def add_staff_save(request):
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         email = request.POST.get('email')
-        password = "lincoln12345"
+        password = "lincolnstaff12345"
         address = request.POST.get('address')
 
         try:
@@ -245,9 +245,12 @@ def delete_department(request, department_id):
         messages.error(request, "Failed to Delete department.")
         return redirect('manage_department')
 
-
 def add_course(request):
-    return render(request, "hod_template/add_course_template.html")
+    departments = Departments.objects.all()
+    context = {
+        "departments":departments,
+    }
+    return render(request, "hod_template/add_course_template.html", context)
 
 
 def add_course_save(request):
@@ -478,7 +481,7 @@ def add_student_save(request):
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            password = "lincoln1234567890"
             address = form.cleaned_data['address']
             session_year_id = form.cleaned_data['session_year_id']
             course_id = form.cleaned_data['course_id']
