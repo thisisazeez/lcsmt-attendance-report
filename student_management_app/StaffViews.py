@@ -66,7 +66,7 @@ def staff_home(request):
  
 
 def staff_take_attendance(request):
-    subjects = Subjects.objects.filter(staff_id=request.user.id)
+    subjects = Subjects.objects.filter(id=request.user.id)
     session_years = SessionYearModel.objects.all()
     context = {
         "subjects": subjects,
@@ -88,7 +88,7 @@ def get_students(request):
 
     session_model = SessionYearModel.objects.get(id=session_year)
 
-    students = Students.objects.filter(course_id=subject_model.course_id, session_year_id=session_model)
+    students = Students.objects.filter(id=subject_model.course_id, session_year_id=session_model)
 
     # Only Passing Student Id and Student Name Only
     list_data = []
@@ -136,7 +136,7 @@ def save_attendance_data(request):
 
 
 def staff_update_attendance(request):
-    subjects = Subjects.objects.filter(staff_id=request.user.id)
+    subjects = Subjects.objects.filter(id=request.user.id)
     session_years = SessionYearModel.objects.all()
     context = {
         "subjects": subjects,
@@ -254,7 +254,7 @@ def staff_profile_update(request):
 
 
 def staff_add_result(request):
-    subjects = Subjects.objects.filter(staff_id=request.user.id)
+    subjects = Subjects.objects.filter(id=request.user.id)
     session_years = SessionYearModel.objects.all()
     context = {
         "subjects": subjects,

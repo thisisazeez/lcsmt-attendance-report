@@ -3,10 +3,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{% url 'staff_home' %}" class="brand-link">
-        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light">⭐️Lincoln University</span>
-      </a>
+          <img src="{% static './linco.png' %}" alt="AdminLTE Logo" class="brand-image  elevation-3"
+              style="opacity: .8">
+          <span class="brand-text font-weight-light">Lincoln University</span>
+        </a>
 
       <!-- Sidebar -->
       <div class="sidebar">
@@ -59,7 +59,7 @@
               </a>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               {% url 'staff_add_result' as staff_add_result %}
               <a href="{{ staff_add_result }}" class="nav-link {% if request.path == staff_add_result %} active {% endif %}">
                 <i class="nav-icon fas fa-tasks"></i>
@@ -68,7 +68,7 @@
                   {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
                 </p>
               </a>
-            </li>
+            </li> -->
 
 
           </ul>
