@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport
+from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, Intakes, SessionYearModel, Attendance, AttendanceReport
 from .forms import AddStudentForm, EditStudentForm
 
 
@@ -312,6 +312,77 @@ def delete_course(request, course_id):
     except:
         messages.error(request, "Failed to Delete Course.")
         return redirect('manage_course')
+
+
+## intake
+
+def add_intake(request):
+    return render(request, "hod_template/add_intake_template.html")
+
+
+def add_intake_save(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('add_intake')
+    else:
+        intake = request.POST.get('intake')
+        try:
+            intake_model = Intakes(intake_name=intake)
+            intake_model.save()
+            messages.success(request, "intake Added Successfully!")
+            return redirect('add_intake')
+        except:
+            messages.error(request, "Failed to Add intake!")
+            return redirect('add_intake')
+
+def manage_intake(request):
+    intakes = Intakes.objects.all()
+    context = {
+        "intakes": intakes
+    }
+    return render(request, 'hod_template/manage_intake_template.html', context)
+
+
+def edit_intake(request, intake_id):
+    intake = Intakes.objects.get(id=intake_id)
+    context = {
+        "intake": intake,
+        "id": intake_id
+    }
+    return render(request, 'hod_template/edit_intake_template.html', context)
+
+
+def edit_intake_save(request):
+    if request.method != "POST":
+        HttpResponse("Invalid Method")
+    else:
+        intake_id = request.POST.get('intake_id')
+        intake_name = request.POST.get('intake')
+
+        try:
+            intake = Intakes.objects.get(id=intake_id)
+            intake.intake_name = intake_name
+            intake.save()
+
+            messages.success(request, "intake Updated Successfully.")
+            return redirect('/edit_intake/'+intake_id)
+
+        except:
+            messages.error(request, "Failed to Update intake.")
+            return redirect('/edit_intake/'+intake_id)
+
+
+def delete_intake(request, intake_id):
+    intake = Intakes.objects.get(id=intake_id)
+    try:
+        intake.delete()
+        messages.success(request, "intake Deleted Successfully.")
+        return redirect('manage_intake')
+    except:
+        messages.error(request, "Failed to Delete intake.")
+        return redirect('manage_intake')
+
+
 
 
 def manage_session(request):
