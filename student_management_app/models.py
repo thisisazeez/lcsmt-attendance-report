@@ -37,6 +37,14 @@ class Staffs(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
+class Intakes(models.Model):
+    id = models.AutoField(primary_key=True)
+    intake_name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
+
 class Departments(models.Model):
     id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=255)
@@ -102,25 +110,6 @@ class AttendanceReport(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
-
-
-
-# class NotificationStudent(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
-#     message = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     objects = models.Manager()
-
-
-# class NotificationStaffs(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     stafff_id = models.ForeignKey(Staffs, on_delete=models.CASCADE)
-#     message = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     objects = models.Manager()
 
 
 class StudentResult(models.Model):

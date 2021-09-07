@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport
+from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, Intakes, SessionYearModel, Attendance, AttendanceReport
 from .forms import AddStudentForm, EditStudentForm
 
 
@@ -24,8 +24,8 @@ def admin_home(request):
     student_count_list_in_course = []
 
     for course in course_all:
-        subjects = Subjects.objects.filter(course_id=course.id).count()
-        students = Students.objects.filter(course_id=course.id).count()
+        subjects = Subjects.objects.filter(id=course.id).count()
+        students = Students.objects.filter(id=course.id).count()
         course_name_list.append(course.course_name)
         subject_count_list.append(subjects)
         student_count_list_in_course.append(students)
@@ -35,7 +35,7 @@ def admin_home(request):
     student_count_list_in_subject = []
     for subject in subject_all:
         course = Courses.objects.get(id=subject.course_id.id)
-        student_count = Students.objects.filter(course_id=course.id).count()
+        student_count = Students.objects.filter(id=course.id).count()
         subject_list.append(subject.subject_name)
         student_count_list_in_subject.append(student_count)
     
@@ -312,6 +312,77 @@ def delete_course(request, course_id):
     except:
         messages.error(request, "Failed to Delete Course.")
         return redirect('manage_course')
+
+
+## intake
+
+def add_intake(request):
+    return render(request, "hod_template/add_intake_template.html")
+
+
+def add_intake_save(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('add_intake')
+    else:
+        intake = request.POST.get('intake')
+        try:
+            intake_model = Intakes(intake_name=intake)
+            intake_model.save()
+            messages.success(request, "intake Added Successfully!")
+            return redirect('add_intake')
+        except:
+            messages.error(request, "Failed to Add intake!")
+            return redirect('add_intake')
+
+def manage_intake(request):
+    intakes = Intakes.objects.all()
+    context = {
+        "intakes": intakes
+    }
+    return render(request, 'hod_template/manage_intake_template.html', context)
+
+
+def edit_intake(request, intake_id):
+    intake = Intakes.objects.get(id=intake_id)
+    context = {
+        "intake": intake,
+        "id": intake_id
+    }
+    return render(request, 'hod_template/edit_intake_template.html', context)
+
+
+def edit_intake_save(request):
+    if request.method != "POST":
+        HttpResponse("Invalid Method")
+    else:
+        intake_id = request.POST.get('intake_id')
+        intake_name = request.POST.get('intake')
+
+        try:
+            intake = Intakes.objects.get(id=intake_id)
+            intake.intake_name = intake_name
+            intake.save()
+
+            messages.success(request, "intake Updated Successfully.")
+            return redirect('/edit_intake/'+intake_id)
+
+        except:
+            messages.error(request, "Failed to Update intake.")
+            return redirect('/edit_intake/'+intake_id)
+
+
+def delete_intake(request, intake_id):
+    intake = Intakes.objects.get(id=intake_id)
+    try:
+        intake.delete()
+        messages.success(request, "intake Deleted Successfully.")
+        return redirect('manage_intake')
+    except:
+        messages.error(request, "Failed to Delete intake.")
+        return redirect('manage_intake')
+
+
 
 
 def manage_session(request):

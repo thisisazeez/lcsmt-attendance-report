@@ -17,25 +17,35 @@ urlpatterns = [
     path('edit_staff/<staff_id>/', HodViews.edit_staff, name="edit_staff"),
     path('edit_staff_save/', HodViews.edit_staff_save, name="edit_staff_save"),
     path('delete_staff/<staff_id>/', HodViews.delete_staff, name="delete_staff"),
+    # add department
     path('add_department/', HodViews.add_department, name="add_department"),
     path('add_department_save/', HodViews.add_department_save, name="add_department_save"),
     path('manage_department/', HodViews.manage_department, name="manage_department"),
     path('edit_department/<department_id>/', HodViews.edit_department, name="edit_department"),
     path('edit_department_save/', HodViews.edit_department_save, name="edit_department_save"),
     path('delete_department/<department_id>/', HodViews.delete_department, name="delete_department"),
-
+    # add course
     path('add_course/', HodViews.add_course, name="add_course"),
     path('add_course_save/', HodViews.add_course_save, name="add_course_save"),
     path('manage_course/', HodViews.manage_course, name="manage_course"),
     path('edit_course/<course_id>/', HodViews.edit_course, name="edit_course"),
     path('edit_course_save/', HodViews.edit_course_save, name="edit_course_save"),
     path('delete_course/<course_id>/', HodViews.delete_course, name="delete_course"),
+    # session
     path('manage_session/', HodViews.manage_session, name="manage_session"),
     path('add_session/', HodViews.add_session, name="add_session"),
     path('add_session_save/', HodViews.add_session_save, name="add_session_save"),
     path('edit_session/<session_id>', HodViews.edit_session, name="edit_session"),
     path('edit_session_save/', HodViews.edit_session_save, name="edit_session_save"),
     path('delete_session/<session_id>/', HodViews.delete_session, name="delete_session"),
+    # intake
+    path('add_intake/', HodViews.add_intake, name="add_intake"),
+    path('add_intake_save/', HodViews.add_intake_save, name="add_intake_save"),
+    path('manage_intake/', HodViews.manage_intake, name="manage_intake"),
+    path('edit_intake/<intake_id>/', HodViews.edit_intake, name="edit_intake"),
+    path('edit_intake_save/', HodViews.edit_intake_save, name="edit_intake_save"),
+    path('delete_intake/<intake_id>/', HodViews.delete_intake, name="delete_intake"),
+    # Student
     path('add_student/', HodViews.add_student, name="add_student"),
     path('add_student_save/', HodViews.add_student_save, name="add_student_save"),
     path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
