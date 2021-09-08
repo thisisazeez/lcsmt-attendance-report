@@ -1,0 +1,114 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Assign Lecturer
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Assign Lecturer</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" method="POST" action="{% url 'assign_lecturer_save' %}">
+                        {% csrf_token %}
+
+                        
+                                {% comment %} Display Messages {% endcomment %}
+                                {% if messages %}
+                                <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                {% endif %}
+                            
+
+                        <div class="card-body">
+
+                                                     <div class="form-group">
+                                <label>Staff </label>
+                                <select class="form-control" name="staff">
+                                    {% for staff in staffs %}
+                                        <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label>Department </label>
+                                <select class="form-control" name="department" placeholder="Choose Department">
+                                    {% for department in departments %}
+                                        <option value="{{ department.id }}">{{ department.department_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Course </label>
+                                <select class="form-control" name="course" placeholder="Choose course">
+                                    {% for course in courses %}
+                                        <option value="{{ course.id }}">{{ course.course_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Subject </label>
+                                <select class="form-control" name="subject" placeholder="Choose subject">
+                                    {% for subject in subjects %}
+                                        <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+
+                            <!-- <div class="form-group">
+                                <label>Department</label>
+                                <input type="text" class="form-control" name="" >
+                            </div> -->
+
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Assign</button>
+                        </div>
+                    </form>
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock main_content %}
