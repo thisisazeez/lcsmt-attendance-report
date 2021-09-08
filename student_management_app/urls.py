@@ -38,14 +38,6 @@ urlpatterns = [
     path('edit_session/<session_id>', HodViews.edit_session, name="edit_session"),
     path('edit_session_save/', HodViews.edit_session_save, name="edit_session_save"),
     path('delete_session/<session_id>/', HodViews.delete_session, name="delete_session"),
-    #  Assign Lecturer
-    path('assign_lecturer/', HodViews.assign_lecturer, name="assign_lecturer"),
-    path('assign_lecturer_save/', HodViews.assign_lecturer_save, name="assign_lecturer_save"),
-    path('manage_assigned_lecturer/', HodViews.manage_assigned_lecturer, name="manage_assigned_lecturer"),
-    path('edit_assigned_lecturer/<assign_lecturer_id>/', HodViews.edit_assigned_lecturer, name="edit_assigned_lecturer"),
-    path('edit_assigned_lecturer_save/', HodViews.edit_assigned_lecturer_save, name="edit_assigned_lecturer_save"),
-    path('delete_assigned_lecturer/<assign_lecturer_id>/', HodViews.delete_assigned_lecturer, name="delete_assigned_lecturer"),
-
     # intake
     path('add_intake/', HodViews.add_intake, name="add_intake"),
     path('add_intake_save/', HodViews.add_intake_save, name="add_intake_save"),
