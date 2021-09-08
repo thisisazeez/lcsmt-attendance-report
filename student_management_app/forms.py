@@ -1,6 +1,6 @@
 from django import forms 
 from django.forms import Form
-from student_management_app.models import Courses, SessionYearModel
+from .models import Courses, SessionYearModel
 
 
 class DateInput(forms.DateInput):
@@ -9,7 +9,7 @@ class DateInput(forms.DateInput):
 
 class AddStudentForm(forms.Form):
     email = forms.EmailField(label="Email", max_length=50, widget=forms.EmailInput(attrs={"class":"form-control"}))
-    password = forms.CharField(label="Password", max_length=50, widget=forms.PasswordInput(attrs={"class":"form-control"}))
+    password = forms.CharField(label="Password", max_length=50, widget=forms.TextInput(attrs={"class":"form-control", "value":"lincoln1234567890"}), disabled=True)
     first_name = forms.CharField(label="First Name", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
     last_name = forms.CharField(label="Last Name", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
     username = forms.CharField(label="Username", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))

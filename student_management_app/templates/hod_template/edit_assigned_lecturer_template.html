@@ -1,7 +1,7 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Add Subject
+    Edit Assigned Lecturers | #ID : {{ assign_lecturer_id.id }}
 {% endblock page_title %}
 
 {% block main_content %}
@@ -16,11 +16,11 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Subject</h3>
+                        <h3 class="card-title">Edit Assigned Lecturer</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'add_subject_save' %}">
+                    <form role="form" method="POST" action="{% url 'edit_assign_lecturer_save' %}">
                         {% csrf_token %}
 
                         
@@ -50,35 +50,38 @@
                                 {% endif %}
                             
 
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label>Subject Name </label>
-                                <input type="text" class="form-control" name="subject" placeholder="Enter Subject">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Course </label>
-                                <select class="form-control" name="course">
-                                    {% for course in courses %}
-                                        <option value="{{ course.id }}">{{ course.course_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Staff </label>
-                                <select class="form-control" name="staff">
-                                    {% for staff in staffs %}
-                                        <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                                <div class="form-group">
+                                    <label>Department </label>
+                                    <select class="form-control" name="department" placeholder="Choose Department">
+                                        {% for department in departments %}
+                                            <option value="{{ department.id }}">{{ department.department_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+    
+                                <div class="form-group">
+                                    <label>Course </label>
+                                    <select class="form-control" name="course" placeholder="Choose course">
+                                        {% for course in courses %}
+                                            <option value="{{ course.id }}">{{ course.course_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Subject </label>
+                                    <select class="form-control" name="subject" placeholder="Choose subject">
+                                        {% for subject in subjects %}
+                                            <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Subject</button>
+                        <button type="submit" class="btn btn-primary">Update Assigned Lecturer</button>
                         </div>
                     </form>
                     </div>

@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, Intakes, SessionYearModel, Attendance, AttendanceReport
+from student_management_app.models import CustomUser, Staffs, Departments, AssignLecturer, Courses, Subjects, Students, Intakes, SessionYearModel, Attendance, AttendanceReport
 from .forms import AddStudentForm, EditStudentForm
 
 
@@ -97,7 +97,7 @@ def add_staff_save(request):
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         email = request.POST.get('email')
-        password = "lincoln12345"
+        password = "lincolnstaff12345"
         address = request.POST.get('address')
 
         try:
@@ -246,8 +246,116 @@ def delete_department(request, department_id):
         return redirect('manage_department')
 
 
+def assign_lecturer(request):
+    assign = AssignLecturer.objects.all()
+    departments = Departments.objects.all()
+    staffs = CustomUser.objects.filter(user_type='2')
+    courses = Courses.objects.all()
+    subjects = Subjects.objects.all()
+
+    context = {
+        "departments":departments,
+        "staffs":staffs,
+        "subject":subjects,
+        "courses":courses,
+        "assign":assign,
+    }
+
+    return render(request, "hod_template/assign_lecturer_template.html", context)
+
+def assign_lecturer_save(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('assign_lecturer')
+    else:
+        course = request.POST.get('course')
+        department = request.POST.get('department')
+        staff = request.POST.get('staff')
+        subject = request.POST.get('subject')
+        try:
+            assign_lecturer_model = AssignLecturer(assign_course=course, assign_lecturer=staff, assign_department = department, assign_subject = subject)
+            
+            assign_lecturer_model.save()
+            messages.success(request, "Lecturer Assigned Successfully!")
+            return redirect('assign_lecturer')
+        except:
+            messages.error(request, "Failed to Assign Lecturer!")
+            return redirect('assign_lecturer')
+
+def manage_assigned_lecturer(request):
+    assign = AssignLecturer.objects.all()
+    departments = Departments.objects.all()
+    staffs = CustomUser.objects.filter(user_type='2')
+    courses = Courses.objects.all()
+    subjects = Subjects.objects.all()
+
+    context = {
+        "departments":departments,
+        "staffs":staffs,
+        "subject":subjects,
+        "courses":courses,
+        "assign":assign,
+    }
+    return render(request, 'hod_template/manage_assign_lecturer_template.html', context)
+
+def edit_assigned_lecturer(request, assign_lecturer_id):
+    assign = AssignLecturer.objects.get(id=assign_lecturer_id)
+    departments = Departments.objects.all()
+    staffs = CustomUser.objects.filter(user_type='2')
+    courses = Courses.objects.all()
+    subjects = Subjects.objects.all()
+
+    context = {
+        "departments":departments,
+        "staffs":staffs,
+        "subject":subjects,
+        "courses":courses,
+        "assign":assign,
+        "id":assign_lecturer_id,
+    }
+    return render(request, 'hod_template/edit_assigned_lecturer_template.html', context)
+
+
+def edit_assigned_lecturer_save(request):
+    if request.method != "POST":
+        HttpResponse("Invalid Method")
+    else:
+        # course = request.POST.get('course')
+        # department = request.POST.get('department')
+        # staff = request.POST.get('staff')
+        # subject = request.POST.get('subject')
+        assign_lecturer_id = request.POST.get('id')
+
+        try:
+            assign_lecturer = AssignLecturer.objects.get(id=assign_lecturer_id)
+            assign_lecturer.id = assign_lecturer_id
+            assign_lecturer.save()
+
+            messages.success(request, "Assigned Lecturer Updated Successfully.")
+            return redirect('/edit/'+assign_lecturer_id)
+
+        except:
+            messages.error(request, "Failed to Update Assigned Lecturer.")
+            return redirect('/edit/'+assign_lecturer_id)
+
+
+def delete_assigned_lecturer(request, assign_lecturer_id):
+    assign_lecturer= AssignLecturer.objects.get(id=assign_lecturer_id)
+    try:
+        assign_lecturer.delete()
+        messages.success(request, "Assigned Lecturer Deleted Successfully.")
+        return redirect('manage_assign_lecturer')
+    except:
+        messages.error(request, "Failed to Delete Assigned Lecturer.")
+        return redirect('manage_assign_lecturer')
+
+
 def add_course(request):
-    return render(request, "hod_template/add_course_template.html")
+    departments = Departments.objects.all()
+    context = {
+        "departments":departments,
+    }
+    return render(request, "hod_template/add_course_template.html", context)
 
 
 def add_course_save(request):
@@ -478,7 +586,7 @@ def add_student_save(request):
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            password = "lincoln1234567890"
             address = form.cleaned_data['address']
             session_year_id = form.cleaned_data['session_year_id']
             course_id = form.cleaned_data['course_id']
@@ -651,7 +759,7 @@ def add_subject_save(request):
         staff = CustomUser.objects.get(id=staff_id)
 
         try:
-            subject = Subjects(subject_name=subject_name, course_id=course, staff_id=staff)
+            subject = Subjects(subject_name=subject_name, course_id=course_id, staff_id=staff_id)
             subject.save()
             messages.success(request, "Subject Added Successfully!")
             return redirect('add_subject')
