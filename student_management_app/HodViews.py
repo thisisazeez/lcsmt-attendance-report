@@ -33,11 +33,11 @@ def admin_home(request):
     subject_all = Subjects.objects.all()
     subject_list = []
     student_count_list_in_subject = []
-    for subject in subject_all:
-        course = Courses.objects.get(id=subject.course_id.id)
-        student_count = Students.objects.filter(id=course.id).count()
-        subject_list.append(subject.subject_name)
-        student_count_list_in_subject.append(student_count)
+    # for subject in subject_all:
+    #     course = Courses.objects.get(id=subject.course_id.id)
+    #     student_count = Students.objects.filter(id=course.id).count()
+    #     subject_list.append(subject.subject_name)
+    #     student_count_list_in_subject.append(student_count)
     
     # For Saffs
     staff_attendance_present_list=[]

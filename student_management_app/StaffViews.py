@@ -16,9 +16,9 @@ def staff_home(request):
 
     subjects = Subjects.objects.filter(id=request.user.id)
     course_id_list = []
-    for subject in subjects:
-        course = Courses.objects.get(id=subject.course_id.id)
-        course_id_list.append(course.id)
+    # for subject in subjects:
+    #     course = Courses.objects.get(id=subject.course_id.id)
+    #     course_id_list.append(course.id)
     
     final_course = []
     # Removing Duplicate Course Id
@@ -35,10 +35,10 @@ def staff_home(request):
     #Fetch Attendance Data by Subjects
     subject_list = []
     attendance_list = []
-    for subject in subjects:
-        attendance_count1 = Attendance.objects.filter(subject_id=subject.id).count()
-        subject_list.append(subject.subject_name)
-        attendance_list.append(attendance_count1)
+    # for subject in subjects:
+    #     attendance_count1 = Attendance.objects.filter(subject_id=subject.id).count()
+    #     subject_list.append(subject.subject_name)
+    #     attendance_list.append(attendance_count1)
 
     students_attendance = Students.objects.filter(course_id__in=final_course)
     student_list = []
