@@ -88,6 +88,7 @@ class Subjects(models.Model):
     objects = models.Manager()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class AssignLecturer(models.Model):
     id = models.AutoField(primary_key=True)
     assign_course= models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True) #need to give default course
@@ -96,6 +97,8 @@ class AssignLecturer(models.Model):
     assign_subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True)
     assign_semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     objects = models.Manager()
+=======
+>>>>>>> parent of df04793 (sending some incomplete work)
 =======
 >>>>>>> parent of df04793 (sending some incomplete work)
 
