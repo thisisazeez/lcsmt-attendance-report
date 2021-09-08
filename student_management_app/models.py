@@ -30,18 +30,18 @@ class AdminHOD(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-
-class Staffs(models.Model):
+class Sessions(models.Model):
     id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
-    address = models.TextField()
+    session_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
+
 class Intakes(models.Model):
     id = models.AutoField(primary_key=True)
     intake_name = models.CharField(max_length=255)
+    session = models.ForeignKey(Sessions,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -50,6 +50,15 @@ class Intakes(models.Model):
 class Departments(models.Model):
     id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
+class Staffs(models.Model):
+    id = models.AutoField(primary_key=True)
+    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
+    department = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
+    address = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -64,6 +73,7 @@ class Semesters(models.Model):
 class Courses(models.Model):
     id = models.AutoField(primary_key=True)
     course_name = models.CharField(max_length=255)
+    department_name = models.ForeignKey(Departments,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -76,9 +86,10 @@ class Courses(models.Model):
 class Subjects(models.Model):
     id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=255)
-    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
-    # staff_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    department_id = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
+    intake = models.ForeignKey(Intakes,on_delete=models.CASCADE)
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
+    staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    department = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
