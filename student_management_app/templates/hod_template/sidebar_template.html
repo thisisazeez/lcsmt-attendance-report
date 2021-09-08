@@ -164,27 +164,6 @@
               </a>
             </li>
 
-            <li class="nav-item">
-              {% url 'manage_assigned_lecturer' as manage_assigned_lecturer %}
-              {% url 'edit_assinged_lecturer' assign_lecturer_id=id as edit_assigned_lecturer %}
-              <a href="{{ manage_assigned_lecturer }}" class="nav-link {% if request.path == manage_assigned_lecturer %} active {% endif %} {% if request.path == edit_addigned_lecturer %} active {% endif %}">
-                <i class="nav-icon fas fa-chalkboard"></i>
-                <p>
-                  Manage Assigned Leturer
-                </p>
-              </a>
-            </li>
-
-
-            <li class="nav-item">
-              {% url 'assign_lecturer' as assign_lecturer %}
-                <a href="{{ assign_lecturer }}" class="nav-link {% if request.path == assign_lecturer %} active {% endif %}">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>
-                    Assign Lecturer
-                  </p>
-                </a>
-              </li>
 
             <li class="nav-item">
               {% url 'manage_session' as manage_session %}

@@ -69,19 +69,11 @@ class Subjects(models.Model):
     id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=255)
     course_id = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
-    staff_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=2)
+    # staff_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     department_id = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
-
-class AssignLecturer(models.Model):
-    id = models.AutoField(primary_key=True)
-    assign_course= models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True) #need to give default course
-    assign_staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-    assign_department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
-    assign_subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True)
-
 
 
 
