@@ -1,3 +1,4 @@
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
@@ -16,6 +17,7 @@ class SessionYearModel(models.Model):
 
 # Overriding the Default Django Auth User and adding One More Field (user_type)
 class CustomUser(AbstractUser):
+    apple= "apple"
     user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
 
@@ -52,6 +54,12 @@ class Departments(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
+class Semesters(models.Model):
+    id = models.AutoField(primary_key=True)
+    semester_name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 
 class Courses(models.Model):
     id = models.AutoField(primary_key=True)
@@ -75,6 +83,24 @@ class Subjects(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
+# <<<<<<< HEAD
+# <<<<<<< HEAD
+# <<<<<<< HEAD
+class AssignLecturer(models.Model):
+    id = models.AutoField(primary_key=True)
+    assign_course= models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True) #need to give default course
+    assign_staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    assign_department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
+    assign_intake = models.ForeignKey(Intakes, on_delete=models.CASCADE, null=True, blank=True)
+    assign_subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True)
+    assign_semester = models.ForeignKey(Semesters, on_delete=models.CASCADE, null=True, blank=True)
+    objects = models.Manager()
+# =======
+# >>>>>>> parent of df04793 (sending some incomplete work)
+# =======
+# >>>>>>> parent of df04793 (sending some incomplete work)
+# =======
+# >>>>>>> 31d29cd3424a9ef98128dd5a45e87d3e2ebfbe1b
 
 
 class Students(models.Model):
