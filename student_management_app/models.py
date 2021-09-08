@@ -64,15 +64,6 @@ class Courses(models.Model):
 	#     return self.course_name
 
 
-class Semester(models.Model):
-    id = models.AutoField(primary_key=True)
-    course_name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
-
-
-
 
 class Subjects(models.Model):
     id = models.AutoField(primary_key=True)
@@ -80,7 +71,6 @@ class Subjects(models.Model):
     course_id = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
     staff_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=2)
     department_id = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
-    semester_id = models.ForeignKey(Semester, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -91,8 +81,8 @@ class AssignLecturer(models.Model):
     assign_staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     assign_department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
     assign_subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True)
-    assign_semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
-    objects = models.Manager()
+
+
 
 
 class Students(models.Model):
@@ -102,14 +92,9 @@ class Students(models.Model):
     profile_pic = models.FileField()
     address = models.TextField()
     course_id = models.ForeignKey(Courses, on_delete=models.DO_NOTHING, default=1)
-    session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE, null=True, blank=True)
+    session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    intake_id = models.ForeignKey(Intakes, on_delete=models.CASCADE, null=True, blank=True)
-    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True) #need to give default course
-    department_id = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
-    subject_id = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True)
-    semester_id = models.ForeignKey(Semester, on_delete=models.CASCADE)
     objects = models.Manager()
 
 
