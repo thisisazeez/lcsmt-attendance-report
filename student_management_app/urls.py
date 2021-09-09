@@ -45,6 +45,15 @@ urlpatterns = [
     path('edit_intake/<intake_id>/', HodViews.edit_intake, name="edit_intake"),
     path('edit_intake_save/', HodViews.edit_intake_save, name="edit_intake_save"),
     path('delete_intake/<intake_id>/', HodViews.delete_intake, name="delete_intake"),
+    
+    # Semester
+    path('add_semester/', HodViews.add_semester, name="add_semester"),
+    path('add_semester_save/', HodViews.add_semester_save, name="add_semester_save"),
+    path('manage_semester/', HodViews.manage_semester, name="manage_semester"),
+    path('edit_semester/<semester_id>/', HodViews.edit_semester, name="edit_semester"),
+    path('edit_semester_save/', HodViews.edit_semester_save, name="edit_semester_save"),
+    path('delete_semester/<semester_id>/', HodViews.delete_semester, name="delete_semester"),
+    
     # Student
     path('add_student/', HodViews.add_student, name="add_student"),
     path('add_student_save/', HodViews.add_student_save, name="add_student_save"),

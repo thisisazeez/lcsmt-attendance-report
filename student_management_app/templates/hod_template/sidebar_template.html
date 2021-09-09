@@ -122,6 +122,28 @@
                 </a>
               </li>
 
+              <li class="nav-item">
+                {% url 'manage_semester' as manage_semester %}
+                {% url 'edit_semester' semester_id=id as edit_semester %}
+                <a href="{{ manage_semester }}" class="nav-link {% if request.path == manage_semester %} active {% endif %} {% if request.path == edit_semester %} active {% endif %}">
+                  <i class="nav-icon fas fa-chalkboard"></i>
+                  <p>
+                    Manage Semester
+                  </p>
+                </a>
+              </li>
+  
+  
+              <li class="nav-item">
+                {% url 'add_semester' as add_semester %}
+                  <a href="{{ add_semester }}" class="nav-link {% if request.path == add_semester %} active {% endif %}">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                      Add Semester
+                    </p>
+                  </a>
+                </li>
+
             <li class="nav-item">
               {% url 'manage_course' as manage_course %}
               {% url 'edit_course' course_id=id as edit_course %}

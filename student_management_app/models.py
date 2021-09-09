@@ -34,7 +34,7 @@ class Sessions(models.Model):
 class Intakes(models.Model):
     id = models.AutoField(primary_key=True)
     intake_name = models.CharField(max_length=255)
-    session = models.ForeignKey(Sessions,on_delete=models.CASCADE)
+    session = models.ForeignKey(Sessions,on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -48,8 +48,8 @@ class Departments(models.Model):
 
 class Staffs(models.Model):
     id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
-    department = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
+    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
+    department = models.ForeignKey(Departments,on_delete=models.CASCADE, blank=True, null=True)
     address = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -65,7 +65,7 @@ class Semesters(models.Model):
 class Courses(models.Model):
     id = models.AutoField(primary_key=True)
     course_name = models.CharField(max_length=255)
-    department_name = models.ForeignKey(Departments,on_delete=models.CASCADE)
+    department_name = models.ForeignKey(Departments,on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -78,9 +78,9 @@ class Subjects(models.Model):
     subject_name = models.CharField(max_length=255)
     # intake = models.ForeignKey(Intakes,on_delete=models.CASCADE)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
-    staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    registered_student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    department = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
+    staff = models.ForeignKey(Staffs, on_delete=models.CASCADE, blank=True, null=True)
+    # registered_student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    department = models.ForeignKey(Departments,on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -97,12 +97,12 @@ class AssignLecturer(models.Model):
 
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
+    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
     gender = models.CharField(max_length=50)
     profile_pic = models.FileField()
     intake = models.ForeignKey(Intakes, on_delete=models.DO_NOTHING, default=1)
-    department = models.ForeignKey(Departments, on_delete=models.DO_NOTHING, default=1)
-    course = models.ForeignKey(Courses, on_delete=models.DO_NOTHING)
+    department = models.ForeignKey(Departments, on_delete=models.DO_NOTHING, blank=True, null=True)
+    course = models.ForeignKey(Courses, on_delete=models.DO_NOTHING, blank=True, null=True)
     # session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
     # registered_subjects = models.ForeignKey(Registrations, on_delete=models.DO_NOTHING)
     address = models.TextField()
@@ -113,23 +113,23 @@ class Students(models.Model):
 class Registretions(models.Model):
     id = models.AutoField(primary_key=True)
     registretion_name = models.CharField(max_length=255)
-    student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    session = models.ForeignKey(Sessions, on_delete=models.DO_NOTHING)
-    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
-    subject_choice = models.Choices()
+    student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
+    session = models.ForeignKey(Sessions, on_delete=models.DO_NOTHING, blank=True, null=True)
+    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
+    # subject_choice = models.Choices()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
-    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
-    attendance_date = models.DateField()
-    session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
-    students = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    staff = models.ForeignKey(Staffs, on_delete=models.DO_NOTHING)
-    present = models.BooleanField()
-    assignment = models.BooleanField()
+    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
+    attendance_date = models.DateField(auto_now=True)
+    session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE, blank=True, null=True)
+    students = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
+    staff = models.ForeignKey(Staffs, on_delete=models.DO_NOTHING, blank=True, null=True)
+    present = models.BooleanField(blank=True, null=True)
+    assignment = models.BooleanField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -137,26 +137,26 @@ class Attendance(models.Model):
 
 # class AttendanceReport(models.Model):
     # Individual Student Attendance
-    id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
-    status = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
+    # id = models.AutoField(primary_key=True)
+    # student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    # attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
+    # status = models.BooleanField(default=False)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
+    # objects = models.Manager()
 
 
 
 
 # class StudentResult(models.Model):
-    id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
-    subject_id = models.ForeignKey(Subjects, on_delete=models.CASCADE)
-    subject_exam_marks = models.FloatField(default=0)
-    subject_assignment_marks = models.FloatField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
+    # id = models.AutoField(primary_key=True)
+    # student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
+    # subject_id = models.ForeignKey(Subjects, on_delete=models.CASCADE)
+    # subject_exam_marks = models.FloatField(default=0)
+    # subject_assignment_marks = models.FloatField(default=0)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
+    # objects = models.Manager()
 
 
 #Creating Django Signals

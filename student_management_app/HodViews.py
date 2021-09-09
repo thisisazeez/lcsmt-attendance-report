@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, Intakes, SessionYearModel, Attendance, AttendanceReport
+from student_management_app.models import CustomUser, Staffs, Departments, Courses, Subjects, Students, Intakes, Semesters, SessionYearModel, Attendance # AttendanceReport
 from .forms import AddStudentForm, EditStudentForm
 
 
@@ -33,11 +33,11 @@ def admin_home(request):
     subject_all = Subjects.objects.all()
     subject_list = []
     student_count_list_in_subject = []
-    # for subject in subject_all:
-    #     course = Courses.objects.get(id=subject.course_id.id)
-    #     student_count = Students.objects.filter(id=course.id).count()
-    #     subject_list.append(subject.subject_name)
-    #     student_count_list_in_subject.append(student_count)
+    for subject in subject_all:
+        course = Courses.objects.get(id=subject.course_id.id)
+        student_count = Students.objects.filter(id=course.id).count()
+        subject_list.append(subject.subject_name)
+        student_count_list_in_subject.append(student_count)
     
     # For Saffs
     staff_attendance_present_list=[]
@@ -58,8 +58,8 @@ def admin_home(request):
 
     students = Students.objects.all()
     for student in students:
-        attendance = AttendanceReport.objects.filter(student_id=student.id, status=True).count()
-        absent = AttendanceReport.objects.filter(student_id=student.id, status=False).count()
+        attendance = Attendance.objects.filter(student_id=student.id, status=True).count()
+        absent = Attendance.objects.filter(student_id=student.id, status=False).count()
         student_attendance_present_list.append(attendance)
         student_name_list.append(student.admin.first_name)
 
@@ -178,10 +178,73 @@ def delete_staff(request, staff_id):
         return redirect('manage_staff')
 
 
+def add_semester(request):
+    return render(request, "hod_template/add_semester_template.html")
+
+def add_semester_save(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('add_semester')
+    else:
+        semester = request.POST.get('semester')
+        try:
+            semester_model = Semesters(semester_name=semester)
+            semester_model.save()
+            messages.success(request, "Semester Added Successfully!")
+            return redirect('add_semester')
+        except:
+            messages.error(request, "Failed to Add Semester!")
+            return redirect('add_semester')
+        
+def manage_semester(request):
+    semesters = Semesters.objects.all()
+    context = {
+        "semesters": semesters
+    }
+    return render(request, 'hod_template/manage_semester_template.html', context)
+
+
+def edit_semester(request, semester_id):
+    semester = Semesters.objects.get(id=semester_id)
+    context = {
+        "semester": semester,
+        "id": semester_id
+    }
+    return render(request, 'hod_template/edit_semester_template.html', context)
+
+def edit_semester_save(request):
+    if request.method != "POST":
+        HttpResponse("Invalid Method")
+    else:
+        semester_id = request.POST.get('semester_id')
+        semester_name = request.POST.get('semester')
+
+        try:
+            semester = Semesters.objects.get(id=semester_id)
+            semester.semester_name = semester_name
+            semester.save()
+
+            messages.success(request, "semester Updated Successfully.")
+            return redirect('/edit_semester/'+semester_id)
+
+        except:
+            messages.error(request, "Failed to Update semester.")
+            return redirect('/edit_semester/'+semester_id)
+
+def delete_semester(request, semester_id):
+    semester = Semesters.objects.get(id=semester_id)
+    try:
+        semester.delete()
+        messages.success(request, "Semester Deleted Successfully.")
+        return redirect('manage_semester')
+    except:
+        messages.error(request, "Failed to Delete Semester.")
+        return redirect('manage_semester')
+
+
 
 def add_department(request):
     return render(request, "hod_template/add_department_template.html")
-
 
 def add_department_save(request):
     if request.method != "POST":
@@ -789,7 +852,7 @@ def admin_get_attendance_student(request):
     attendance_date = request.POST.get('attendance_date')
     attendance = Attendance.objects.get(id=attendance_date)
 
-    attendance_data = AttendanceReport.objects.filter(attendance_id=attendance)
+    attendance_data = Attendance.objects.filter(attendance_id=attendance)
     # Only Passing Student Id and Student Name Only
     list_data = []
 
