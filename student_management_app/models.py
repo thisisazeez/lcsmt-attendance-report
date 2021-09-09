@@ -5,23 +5,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
-
 class SessionYearModel(models.Model):
     id = models.AutoField(primary_key=True)
     session_start_year = models.DateField()
     session_end_year = models.DateField()
     objects = models.Manager()
 
-
-
 # Overriding the Default Django Auth User and adding One More Field (user_type)
 class CustomUser(AbstractUser):
     apple= "apple"
     user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
-
-
 
 class AdminHOD(models.Model):
     id = models.AutoField(primary_key=True)
@@ -37,7 +31,6 @@ class Sessions(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-
 class Intakes(models.Model):
     id = models.AutoField(primary_key=True)
     intake_name = models.CharField(max_length=255)
@@ -45,7 +38,6 @@ class Intakes(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
-
 
 class Departments(models.Model):
     id = models.AutoField(primary_key=True)
@@ -81,22 +73,18 @@ class Courses(models.Model):
     # def __str__(self):
 	#     return self.course_name
 
-
-
 class Subjects(models.Model):
     id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=255)
-    intake = models.ForeignKey(Intakes,on_delete=models.CASCADE)
+    # intake = models.ForeignKey(Intakes,on_delete=models.CASCADE)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
     staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    registered_student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     department = models.ForeignKey(Departments,on_delete=models.CASCADE, default=3)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-# <<<<<<< HEAD
-# <<<<<<< HEAD
-# <<<<<<< HEAD
 class AssignLecturer(models.Model):
     id = models.AutoField(primary_key=True)
     assign_course= models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True) #need to give default course
@@ -106,39 +94,48 @@ class AssignLecturer(models.Model):
     assign_subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True)
     assign_semester = models.ForeignKey(Semesters, on_delete=models.CASCADE, null=True, blank=True)
     objects = models.Manager()
-# =======
-# >>>>>>> parent of df04793 (sending some incomplete work)
-# =======
-# >>>>>>> parent of df04793 (sending some incomplete work)
-# =======
-# >>>>>>> 31d29cd3424a9ef98128dd5a45e87d3e2ebfbe1b
-
 
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     gender = models.CharField(max_length=50)
     profile_pic = models.FileField()
+    intake = models.ForeignKey(Intakes, on_delete=models.DO_NOTHING, default=1)
+    department = models.ForeignKey(Departments, on_delete=models.DO_NOTHING, default=1)
+    course = models.ForeignKey(Courses, on_delete=models.DO_NOTHING)
+    # session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
+    # registered_subjects = models.ForeignKey(Registrations, on_delete=models.DO_NOTHING)
     address = models.TextField()
-    course_id = models.ForeignKey(Courses, on_delete=models.DO_NOTHING, default=1)
-    session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
+class Registretions(models.Model):
+    id = models.AutoField(primary_key=True)
+    registretion_name = models.CharField(max_length=255)
+    student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    session = models.ForeignKey(Sessions, on_delete=models.DO_NOTHING)
+    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
+    subject_choice = models.Choices()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 
 class Attendance(models.Model):
-    # Subject Attendance
     id = models.AutoField(primary_key=True)
-    subject_id = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
+    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
     attendance_date = models.DateField()
     session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
+    students = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    staff = models.ForeignKey(Staffs, on_delete=models.DO_NOTHING)
+    present = models.BooleanField()
+    assignment = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
 
-class AttendanceReport(models.Model):
+# class AttendanceReport(models.Model):
     # Individual Student Attendance
     id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
@@ -149,7 +146,9 @@ class AttendanceReport(models.Model):
     objects = models.Manager()
 
 
-class StudentResult(models.Model):
+
+
+# class StudentResult(models.Model):
     id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
     subject_id = models.ForeignKey(Subjects, on_delete=models.CASCADE)
