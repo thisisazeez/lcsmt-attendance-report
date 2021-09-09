@@ -60,6 +60,7 @@
                             <thead>
                                 <tr>
                                 <th>ID</th>
+                                <th>Department name</th>
                                 <th>Course Name</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
@@ -70,6 +71,7 @@
                                 {% for course in courses %}
                                 <tr>
                                 <td>{{ course.id }}</td>
+                                <td>{{ course.department_name.department_name }}</td>
                                 <td>{{ course.course_name }}</td>
                                 <td>{{ course.created_at }}</td>
                                 <td>{{ course.updated_at }}</td>

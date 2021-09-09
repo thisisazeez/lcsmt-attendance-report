@@ -171,7 +171,7 @@ def delete_staff(request, staff_id):
         return redirect('manage_staff')
 
 
-
+# #semester
 def add_semester(request):
     return render(request, "hod_template/add_semester_template.html")
 
@@ -196,7 +196,6 @@ def manage_semester(request):
         "semesters": semesters
     }
     return render(request, 'hod_template/manage_semester_template.html', context)
-
 
 def edit_semester(request, semester_id):
     semester = Semesters.objects.get(id=semester_id)
@@ -235,7 +234,7 @@ def delete_semester(request, semester_id):
         messages.error(request, "Failed to Delete Semester.")
         return redirect('manage_semester')
 
-
+# #department
 def add_department(request):
     return render(request, "hod_template/add_department_template.html")
 
@@ -312,14 +311,16 @@ def add_course_save(request):
         return redirect('add_course')
     else:
         course = request.POST.get('course')
-        try:
-            course_model = Courses(course_name=course)
-            course_model.save()
-            messages.success(request, "Course Added Successfully!")
-            return redirect('add_course')
-        except:
-            messages.error(request, "Failed to Add Course!")
-            return redirect('add_course')
+        choices = request.POST.get('department')
+        # department = Departments.objects.filter()
+        # try:
+        course_model = Courses(course_name=course, department_name=Departments.objects.get( department_name=choices))
+        course_model.save()
+        messages.success(request, "Course Added Successfully!")
+        return redirect('add_course')
+        # except:
+        #     messages.error(request, "Failed to Add Course!")
+        #     return redirect('add_course')
 
 def manage_course(request):
     courses = Courses.objects.all()
@@ -659,35 +660,40 @@ def delete_student(request, student_id):
 
 # #subject
 def add_subject(request):
+    departments = Departments.objects.all()
+    staffs = Staffs.objects.all()
     courses = Courses.objects.all()
-    staffs = CustomUser.objects.filter(user_type='2')
+    semesters = Semesters.objects.all()
+
     context = {
-        "courses": courses,
-        "staffs": staffs
+        "departments":departments,
+        "staffs":staffs,
+        "semesters":semesters,
+        "courses":courses,
+
     }
-    return render(request, 'hod_template/add_subject_template.html', context)
+    return render(request, "hod_template/add_subject_template.html", context)
 
 def add_subject_save(request):
     if request.method != "POST":
-        messages.error(request, "Method Not Allowed!")
+        messages.error(request, "Invalid Method!")
         return redirect('add_subject')
     else:
-        subject_name = request.POST.get('subject')
-
-        course_id = request.POST.get('course')
-        course = Courses.objects.get(id=course_id)
-        
-        staff_id = request.POST.get('staff')
-        staff = CustomUser.objects.get(id=staff_id)
+        subject = request.POST.get('subject')
+        staff = request.POST.get('staff')
+        course = request.POST.get('course')
+        semester = request.POST.get('semester')
+        department = request.POST.get('department')
 
         try:
-            subject = Subjects(subject_name=subject_name, course_id=course, staff_id=staff)
-            subject.save()
-            messages.success(request, "Subject Added Successfully!")
+            subject_model = Subjects(subject_name=subject, department_name=Departments.objects.get( department_name=department), semesters=Semesters.objects.get( semester_name=semester), staff=Staffs.objects.get( staff_name=staff), course=Courses.objects.get( course_name=course))
+            subject_model.save()
+            messages.success(request, "subject Added Successfully!")
             return redirect('add_subject')
         except:
-            messages.error(request, "Failed to Add Subject!")
+            messages.error(request, "Failed to Add subject!")
             return redirect('add_subject')
+
 
 def manage_subject(request):
     subjects = Subjects.objects.all()

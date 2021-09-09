@@ -77,6 +77,7 @@ class Subjects(models.Model):
     id = models.AutoField(primary_key=True)
     subject_name = models.CharField(max_length=255)
     # intake = models.ForeignKey(Intakes,on_delete=models.CASCADE)
+    semesters= models.ForeignKey(Semesters,on_delete=models.CASCADE)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1) #need to give default course
     staff = models.ForeignKey(Staffs, on_delete=models.CASCADE, blank=True, null=True)
     # registered_student = models.ForeignKey(Students, on_delete=models.CASCADE)
