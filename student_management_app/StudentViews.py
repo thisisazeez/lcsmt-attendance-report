@@ -40,7 +40,6 @@ def student_home(request):
     }
     return render(request, "student_template/student_home_template.html", context)
 
-
 def student_view_attendance(request):
     student = Students.objects.get(admin=request.user.id) # Getting Logged in Student Data
     course = student.course_id # Getting Course Enrolled of LoggedIn Student
@@ -50,7 +49,6 @@ def student_view_attendance(request):
         "subjects": subjects
     }
     return render(request, "student_template/student_view_attendance.html", context)
-
 
 def student_view_attendance_post(request):
     if request.method != "POST":
@@ -100,7 +98,6 @@ def student_profile(request):
     }
     return render(request, 'student_template/student_profile.html', context)
 
-
 def student_profile_update(request):
     if request.method != "POST":
         messages.error(request, "Invalid Method!")
@@ -129,7 +126,6 @@ def student_profile_update(request):
             messages.error(request, "Failed to Update Profile")
             return redirect('student_profile')
 
-
 def student_view_result(request):
     student = Students.objects.get(admin=request.user.id)
     student_result = StudentResult.objects.filter(id=student.id)
@@ -137,8 +133,4 @@ def student_view_result(request):
         "student_result": student_result,
     }
     return render(request, "student_template/student_view_result.html", context)
-
-
-
-
 
