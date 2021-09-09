@@ -684,7 +684,7 @@ def delete_subject(request, subject_id):
         return redirect('manage_subject')
 
 
-# The exempt
+# The exempts
 
 @csrf_exempt
 def check_email_exist(request):
