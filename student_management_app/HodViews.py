@@ -83,10 +83,9 @@ def admin_home(request):
     }
     return render(request, "hod_template/home_content.html", context)
 
-
+# #staff
 def add_staff(request):
     return render(request, "hod_template/add_staff_template.html")
-
 
 def add_staff_save(request):
     if request.method != "POST":
@@ -110,15 +109,12 @@ def add_staff_save(request):
             messages.error(request, "Failed to Add Staff!")
             return redirect('add_staff')
 
-
-
 def manage_staff(request):
     staffs = Staffs.objects.all()
     context = {
         "staffs": staffs
     }
     return render(request, "hod_template/manage_staff_template.html", context)
-
 
 def edit_staff(request, staff_id):
     staff = Staffs.objects.get(admin=staff_id)
@@ -128,7 +124,6 @@ def edit_staff(request, staff_id):
         "id": staff_id
     }
     return render(request, "hod_template/edit_staff_template.html", context)
-
 
 def edit_staff_save(request):
     if request.method != "POST":
@@ -165,8 +160,6 @@ def edit_staff_save(request):
             messages.error(request, "Failed to Update Staff.")
             return redirect('/edit_staff/'+staff_id)
 
-
-
 def delete_staff(request, staff_id):
     staff = Staffs.objects.get(admin=staff_id)
     try:
@@ -177,6 +170,7 @@ def delete_staff(request, staff_id):
         messages.error(request, "Failed to Delete Staff.")
         return redirect('manage_staff')
 
+<<<<<<< HEAD
 
 def add_semester(request):
     return render(request, "hod_template/add_semester_template.html")
@@ -243,6 +237,9 @@ def delete_semester(request, semester_id):
 
 
 
+=======
+# #department
+>>>>>>> 822986b5f4aaf0d216f89671e02b8ccf6268203f
 def add_department(request):
     return render(request, "hod_template/add_department_template.html")
 
@@ -268,7 +265,6 @@ def manage_department(request):
     }
     return render(request, 'hod_template/manage_department_template.html', context)
 
-
 def edit_department(request, department_id):
     department = Departments.objects.get(id=department_id)
     context = {
@@ -276,7 +272,6 @@ def edit_department(request, department_id):
         "id": department_id
     }
     return render(request, 'hod_template/edit_department_template.html', context)
-
 
 def edit_department_save(request):
     if request.method != "POST":
@@ -297,7 +292,6 @@ def edit_department_save(request):
             messages.error(request, "Failed to Update department.")
             return redirect('/edit_department/'+department_id)
 
-
 def delete_department(request, department_id):
     department = Departments.objects.get(id=department_id)
     try:
@@ -308,13 +302,13 @@ def delete_department(request, department_id):
         messages.error(request, "Failed to Delete department.")
         return redirect('manage_department')
 
+#  #course
 def add_course(request):
     departments = Departments.objects.all()
     context = {
         "departments":departments,
     }
     return render(request, "hod_template/add_course_template.html", context)
-
 
 def add_course_save(request):
     if request.method != "POST":
@@ -331,14 +325,12 @@ def add_course_save(request):
             messages.error(request, "Failed to Add Course!")
             return redirect('add_course')
 
-
 def manage_course(request):
     courses = Courses.objects.all()
     context = {
         "courses": courses
     }
     return render(request, 'hod_template/manage_course_template.html', context)
-
 
 def edit_course(request, course_id):
     course = Courses.objects.get(id=course_id)
@@ -347,7 +339,6 @@ def edit_course(request, course_id):
         "id": course_id
     }
     return render(request, 'hod_template/edit_course_template.html', context)
-
 
 def edit_course_save(request):
     if request.method != "POST":
@@ -368,7 +359,6 @@ def edit_course_save(request):
             messages.error(request, "Failed to Update Course.")
             return redirect('/edit_course/'+course_id)
 
-
 def delete_course(request, course_id):
     course = Courses.objects.get(id=course_id)
     try:
@@ -379,12 +369,9 @@ def delete_course(request, course_id):
         messages.error(request, "Failed to Delete Course.")
         return redirect('manage_course')
 
-
-## intake
-
+# #intake
 def add_intake(request):
     return render(request, "hod_template/add_intake_template.html")
-
 
 def add_intake_save(request):
     if request.method != "POST":
@@ -408,7 +395,6 @@ def manage_intake(request):
     }
     return render(request, 'hod_template/manage_intake_template.html', context)
 
-
 def edit_intake(request, intake_id):
     intake = Intakes.objects.get(id=intake_id)
     context = {
@@ -416,7 +402,6 @@ def edit_intake(request, intake_id):
         "id": intake_id
     }
     return render(request, 'hod_template/edit_intake_template.html', context)
-
 
 def edit_intake_save(request):
     if request.method != "POST":
@@ -437,7 +422,6 @@ def edit_intake_save(request):
             messages.error(request, "Failed to Update intake.")
             return redirect('/edit_intake/'+intake_id)
 
-
 def delete_intake(request, intake_id):
     intake = Intakes.objects.get(id=intake_id)
     try:
@@ -448,9 +432,7 @@ def delete_intake(request, intake_id):
         messages.error(request, "Failed to Delete intake.")
         return redirect('manage_intake')
 
-
-
-
+# #session
 def manage_session(request):
     session_years = SessionYearModel.objects.all()
     context = {
@@ -458,10 +440,8 @@ def manage_session(request):
     }
     return render(request, "hod_template/manage_session_template.html", context)
 
-
 def add_session(request):
     return render(request, "hod_template/add_session_template.html")
-
 
 def add_session_save(request):
     if request.method != "POST":
@@ -480,14 +460,12 @@ def add_session_save(request):
             messages.error(request, "Failed to Add Session Year")
             return redirect("add_session")
 
-
 def edit_session(request, session_id):
     session_year = SessionYearModel.objects.get(id=session_id)
     context = {
         "session_year": session_year
     }
     return render(request, "hod_template/edit_session_template.html", context)
-
 
 def edit_session_save(request):
     if request.method != "POST":
@@ -510,7 +488,6 @@ def edit_session_save(request):
             messages.error(request, "Failed to Update Session Year.")
             return redirect('/edit_session/'+session_id)
 
-
 def delete_session(request, session_id):
     session = SessionYearModel.objects.get(id=session_id)
     try:
@@ -521,16 +498,13 @@ def delete_session(request, session_id):
         messages.error(request, "Failed to Delete Session.")
         return redirect('manage_session')
 
-
+# #students
 def add_student(request):
     form = AddStudentForm()
     context = {
         "form": form
     }
     return render(request, 'hod_template/add_student_template.html', context)
-
-
-
 
 def add_student_save(request):
     if request.method != "POST":
@@ -583,14 +557,12 @@ def add_student_save(request):
         else:
             return redirect('add_student')
 
-
 def manage_student(request):
     students = Students.objects.all()
     context = {
         "students": students
     }
     return render(request, 'hod_template/manage_student_template.html', context)
-
 
 def edit_student(request, student_id):
     # Adding Student ID into Session Variable
@@ -614,7 +586,6 @@ def edit_student(request, student_id):
         "form": form
     }
     return render(request, "hod_template/edit_student_template.html", context)
-
 
 def edit_student_save(request):
     if request.method != "POST":
@@ -680,7 +651,6 @@ def edit_student_save(request):
         else:
             return redirect('/edit_student/'+student_id)
 
-
 def delete_student(request, student_id):
     student = Students.objects.get(admin=student_id)
     try:
@@ -691,7 +661,7 @@ def delete_student(request, student_id):
         messages.error(request, "Failed to Delete Student.")
         return redirect('manage_student')
 
-
+# #subject
 def add_subject(request):
     courses = Courses.objects.all()
     staffs = CustomUser.objects.filter(user_type='2')
@@ -700,8 +670,6 @@ def add_subject(request):
         "staffs": staffs
     }
     return render(request, 'hod_template/add_subject_template.html', context)
-
-
 
 def add_subject_save(request):
     if request.method != "POST":
@@ -725,14 +693,12 @@ def add_subject_save(request):
             messages.error(request, "Failed to Add Subject!")
             return redirect('add_subject')
 
-
 def manage_subject(request):
     subjects = Subjects.objects.all()
     context = {
         "subjects": subjects
     }
     return render(request, 'hod_template/manage_subject_template.html', context)
-
 
 def edit_subject(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)
@@ -745,7 +711,6 @@ def edit_subject(request, subject_id):
         "id": subject_id
     }
     return render(request, 'hod_template/edit_subject_template.html', context)
-
 
 def edit_subject_save(request):
     if request.method != "POST":
@@ -777,8 +742,6 @@ def edit_subject_save(request):
             return HttpResponseRedirect(reverse("edit_subject", kwargs={"subject_id":subject_id}))
             # return redirect('/edit_subject/'+subject_id)
 
-
-
 def delete_subject(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)
     try:
@@ -790,6 +753,8 @@ def delete_subject(request, subject_id):
         return redirect('manage_subject')
 
 
+# The exempts
+
 @csrf_exempt
 def check_email_exist(request):
     email = request.POST.get("email")
@@ -798,7 +763,6 @@ def check_email_exist(request):
         return HttpResponse(True)
     else:
         return HttpResponse(False)
-
 
 @csrf_exempt
 def check_username_exist(request):
@@ -809,8 +773,6 @@ def check_username_exist(request):
     else:
         return HttpResponse(False)
 
-
-
 def admin_view_attendance(request):
     subjects = Subjects.objects.all()
     session_years = SessionYearModel.objects.all()
@@ -819,7 +781,6 @@ def admin_view_attendance(request):
         "session_years": session_years
     }
     return render(request, "hod_template/admin_view_attendance.html", context)
-
 
 @csrf_exempt
 def admin_get_attendance_dates(request):
@@ -845,7 +806,6 @@ def admin_get_attendance_dates(request):
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
 
-
 @csrf_exempt
 def admin_get_attendance_student(request):
     # Getting Values from Ajax POST 'Fetch Student'
@@ -862,7 +822,6 @@ def admin_get_attendance_student(request):
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
 
-
 def admin_profile(request):
     user = CustomUser.objects.get(id=request.user.id)
 
@@ -870,7 +829,6 @@ def admin_profile(request):
         "user": user
     }
     return render(request, 'hod_template/admin_profile.html', context)
-
 
 def admin_profile_update(request):
     if request.method != "POST":
@@ -894,14 +852,12 @@ def admin_profile_update(request):
             messages.error(request, "Failed to Update Profile")
             return redirect('admin_profile')
     
-
-
 def staff_profile(request):
     pass
 
-
 def student_profile(requtest):
     pass
+
 
 
 
