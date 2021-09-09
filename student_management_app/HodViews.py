@@ -170,7 +170,7 @@ def delete_staff(request, staff_id):
         messages.error(request, "Failed to Delete Staff.")
         return redirect('manage_staff')
 
-<<<<<<< HEAD
+
 
 def add_semester(request):
     return render(request, "hod_template/add_semester_template.html")
@@ -236,10 +236,6 @@ def delete_semester(request, semester_id):
         return redirect('manage_semester')
 
 
-
-=======
-# #department
->>>>>>> 822986b5f4aaf0d216f89671e02b8ccf6268203f
 def add_department(request):
     return render(request, "hod_template/add_department_template.html")
 
