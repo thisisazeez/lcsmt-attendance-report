@@ -34,8 +34,8 @@ def admin_home(request):
     subject_list = []
     student_count_list_in_subject = []
     for subject in subject_all:
-        course = Courses.objects.get(id=subject.course_id.id)
-        student_count = Students.objects.filter(id=course.id).count()
+        course = Courses.objects.all()
+        student_count = Students.objects.all().count()
         subject_list.append(subject.subject_name)
         student_count_list_in_subject.append(student_count)
     
@@ -89,7 +89,7 @@ def add_staff(request):
 
 def add_staff_save(request):
     if request.method != "POST":
-        messages.error(request, "Invalid Method ")
+        messages.error(request, "Invalid Method!")
         return redirect('add_staff')
     else:
         first_name = request.POST.get('first_name')
@@ -515,15 +515,13 @@ def add_student_save(request):
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = "lincoln1234567890"
+            password = form.cleaned_data['password']
             address = form.cleaned_data['address']
             session_year_id = form.cleaned_data['session_year_id']
             course_id = form.cleaned_data['course_id']
             gender = form.cleaned_data['gender']
 
             # Getting Profile Pic first
-            # First Check whether the file is selected or not
-            # Upload only if file is selected
             if len(request.FILES) != 0:
                 profile_pic = request.FILES['profile_pic']
                 fs = FileSystemStorage()
@@ -661,7 +659,7 @@ def delete_student(request, student_id):
 # #subject
 def add_subject(request):
     departments = Departments.objects.all()
-    staffs = Staffs.objects.all()
+    staffs = CustomUser.objects.filter(user_type='2')
     courses = Courses.objects.all()
     semesters = Semesters.objects.all()
 
@@ -685,14 +683,15 @@ def add_subject_save(request):
         semester = request.POST.get('semester')
         department = request.POST.get('department')
 
-        try:
-            subject_model = Subjects(subject_name=subject, department_name=Departments.objects.get( department_name=department), semesters=Semesters.objects.get( semester_name=semester), staff=Staffs.objects.get( staff_name=staff), course=Courses.objects.get( course_name=course))
-            subject_model.save()
-            messages.success(request, "subject Added Successfully!")
-            return redirect('add_subject')
-        except:
-            messages.error(request, "Failed to Add subject!")
-            return redirect('add_subject')
+        print(department)
+        # try:
+        subject_model = Subjects(subject_name=subject, department=Departments.objects.get( department_name=department), semesters=Semesters.objects.get( semester_name=semester), staff=Staffs.objects.get( id=staff), course=Courses.objects.get( id=course))
+        subject_model.save  ()
+        messages.success(request, "subject Added Successfully!")
+        return redirect('add_subject')
+        # except:
+        #     messages.error(request, "Failed to Add subject!")
+        #     return redirect('add_subject')
 
 
 def manage_subject(request):
@@ -702,14 +701,20 @@ def manage_subject(request):
     }
     return render(request, 'hod_template/manage_subject_template.html', context)
 
+
 def edit_subject(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)
     courses = Courses.objects.all()
+    departments = Departments.objects.all()
+    # staffs = Staffs.objects.all()
+    semesters = Semesters.objects.all()
     staffs = CustomUser.objects.filter(user_type='2')
     context = {
         "subject": subject,
-        "courses": courses,
-        "staffs": staffs,
+        "departments":departments,
+        "staffs":staffs,
+        "semesters":semesters,
+        "courses":courses,
         "id": subject_id
     }
     return render(request, 'hod_template/edit_subject_template.html', context)
@@ -720,29 +725,39 @@ def edit_subject_save(request):
     else:
         subject_id = request.POST.get('subject_id')
         subject_name = request.POST.get('subject')
-        course_id = request.POST.get('course')
-        staff_id = request.POST.get('staff')
+        staff = request.POST.get('staff')
+        course = request.POST.get('course')
+        semester = request.POST.get('semester')
+        department = request.POST.get('department')
 
-        try:
-            subject = Subjects.objects.get(id=subject_id)
-            subject.subject_name = subject_name
 
-            course = Courses.objects.get(id=course_id)
-            subject.course_id = course
+        # print(subject_id)
+        # try:
+        subject = Subjects.objects.get(id=subject_id)
+        subject.subject_name = subject_name
 
-            staff = CustomUser.objects.get(id=staff_id)
-            subject.staff_id = staff
-            
-            subject.save()
+        course = Courses.objects.get(course_name=course)
+        subject.course = course
 
-            messages.success(request, "Subject Updated Successfully.")
-            # return redirect('/edit_subject/'+subject_id)
-            return HttpResponseRedirect(reverse("edit_subject", kwargs={"subject_id":subject_id}))
+        semester_name = Semesters.objects.get(semester_name=semester)
+        subject.semesters = semester_name
 
-        except:
-            messages.error(request, "Failed to Update Subject.")
-            return HttpResponseRedirect(reverse("edit_subject", kwargs={"subject_id":subject_id}))
-            # return redirect('/edit_subject/'+subject_id)
+        department_name = Departments.objects.get(department_name=department)
+        subject.department = department_name
+
+        staff_id = Staffs.objects.get(id=staff)
+        subject.staff = staff_id
+        
+        subject.save()
+
+        messages.success(request, "Subject Updated Successfully.")
+        return redirect('/edit_subject/'+subject_id)
+        # return HttpResponseRedirect(reverse("edit_subject", kwargs={"subject_id":subject_id}))
+
+            # except:
+            #     messages.error(request, "Failed to Update Subject.")
+            #     # return HttpResponseRedirect(reverse("edit_subject", kwargs={"subject_id":subject_id}))
+            #     return redirect('/edit_subject/'+subject_id)
 
 def delete_subject(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)

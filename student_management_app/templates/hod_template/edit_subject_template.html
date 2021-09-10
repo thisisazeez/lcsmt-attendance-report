@@ -56,14 +56,43 @@
                                 <input type="text" class="form-control" name="subject" value="{{ subject.subject_name }}">
                             </div>
 
+                            
                             <div class="form-group">
-                                <label>Course </label>
-                                <select class="form-control" name="course">
-                                    {% for course in courses %}
-                                        <option value="{{ course.id }}" {% if course.id == subject.course_id.id %} selected {% endif %}>{{ course.course_name }}</option>
+                                <label>Department:</label>
+                                <select class="form-control" name="department">
+                                    {% for department in departments %}
+                                        <option >{{ department.department_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label>Semester:</label>
+                                <select class="form-control" name="semester">
+                                    {% for semester in semesters %}
+                                        <option>{{ semester.semester_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Course:</label>
+                                <select class="form-control" name="course">
+                                    {% for course in courses %}
+                                        <option>{{ course.course_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lecutrer:</label>
+                                <select class="form-control" name="staff">
+                                    {% for staff in staffs %}
+                                        <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="hidden" name="subject_id" value="{{ subject.id }}" />
 
                             <!-- <div class="form-group">
                                 <label>Staff </label>
