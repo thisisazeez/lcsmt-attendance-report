@@ -26,7 +26,7 @@ def staff_home(request):
         if course_id not in final_course:
             final_course.append(course_id)
     
-    students_count = Students.objects.filter(course_id__in=final_course).count()
+    # students_count = Students.objects.filter(course_id__in=final_course).count()
     subject_count = subjects.count()
 
     # Fetch All Attendance Count
@@ -40,23 +40,23 @@ def staff_home(request):
     #     subject_list.append(subject.subject_name)
     #     attendance_list.append(attendance_count1)
 
-    students_attendance = Students.objects.filter(course_id__in=final_course)
+    # students_attendance = Students.objects.filter(course_id__in=final_course)
     student_list = []
     student_list_attendance_present = []
     student_list_attendance_absent = []
-    for student in students_attendance:
-        attendance_present_count = AttendanceReport.objects.filter(status=True, student_id=student.id).count()
-        attendance_absent_count = AttendanceReport.objects.filter(status=False, student_id=student.id).count()
-        student_list.append(student.admin.first_name+" "+ student.admin.last_name)
-        student_list_attendance_present.append(attendance_present_count)
-        student_list_attendance_absent.append(attendance_absent_count)
+    # for student in students_attendance:
+    #     attendance_present_count = AttendanceReport.objects.filter(status=True, student_id=student.id).count()
+    #     attendance_absent_count = AttendanceReport.objects.filter(status=False, student_id=student.id).count()
+    #     student_list.append(student.admin.first_name+" "+ student.admin.last_name)
+    #     student_list_attendance_present.append(attendance_present_count)
+    #     student_list_attendance_absent.append(attendance_absent_count)
 
     context={
-        "students_count": students_count,
-        "attendance_count": attendance_count,
-        "subject_count": subject_count,
-        "subject_list": subject_list,
-        "attendance_list": attendance_list,
+        # "students_count": students_count,
+        # "attendance_count": attendance_count,
+        # "subject_count": subject_count,
+        # "subject_list": subject_list,
+        # "attendance_list": attendance_list,
         "student_list": student_list,
         "attendance_present_list": student_list_attendance_present,
         "attendance_absent_list": student_list_attendance_absent
