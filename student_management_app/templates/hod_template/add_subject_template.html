@@ -60,7 +60,7 @@
                                 <label>Department:</label>
                                 <select class="form-control" name="department">
                                     {% for department in departments %}
-                                        <option >{{ department.department_name }}</option>
+                                        <option>{{ department.department_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -78,7 +78,7 @@
                                 <label>Course:</label>
                                 <select class="form-control" name="course">
                                     {% for course in courses %}
-                                        <option value="{{ course.id }}">{{ course.course_name }}</option>
+                                        <option>{{ course.course_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -87,7 +87,7 @@
                                 <label>Lecutrer:</label>
                                 <select class="form-control" name="staff">
                                     {% for staff in staffs %}
-                                    <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+                                        <option value="{{ staff.id }}">{{ staff.admin.first_name }} {{ staff.admin.last_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

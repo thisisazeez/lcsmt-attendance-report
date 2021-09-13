@@ -111,13 +111,14 @@ class Students(models.Model):
     objects = models.Manager()
 
 
-class Registretions(models.Model):
+class Registrations(models.Model):
     id = models.AutoField(primary_key=True)
     registretion_name = models.CharField(max_length=255)
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, blank=True, null=True)
     student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
     session = models.ForeignKey(Sessions, on_delete=models.DO_NOTHING, blank=True, null=True)
     subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
-    # subject_choice = models.Choices()
+    department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()

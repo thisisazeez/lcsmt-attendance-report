@@ -314,7 +314,7 @@ def add_course_save(request):
         choices = request.POST.get('department')
         # department = Departments.objects.filter()
         # try:
-        course_model = Courses(course_name=course, department_name=Departments.objects.get( department_name=choices))
+        course_model = Courses(course_name=course, department_name=Departments.objects.get(id=choices))
         course_model.save()
         messages.success(request, "Course Added Successfully!")
         return redirect('add_course')
@@ -586,7 +586,7 @@ def delete_student(request, student_id):
 # #subject
 def add_subject(request):
     departments = Departments.objects.all()
-    staffs = CustomUser.objects.filter(user_type='2')
+    staffs = Staffs.objects.all()
     courses = Courses.objects.all()
     semesters = Semesters.objects.all()
 
@@ -612,14 +612,13 @@ def add_subject_save(request):
 
         print(department)
         # try:
-        subject_model = Subjects(subject_name=subject, department=Departments.objects.get( department_name=department), semesters=Semesters.objects.get( semester_name=semester), staff=Staffs.objects.get( id=staff), course=Courses.objects.get( id=course))
+        subject_model = Subjects(subject_name=subject, department=Departments.objects.get( department_name=department), semesters=Semesters.objects.get( semester_name=semester), course=Courses.objects.get(course_name=course), staff=Staffs.objects.get(id=staff))
         subject_model.save  ()
         messages.success(request, "subject Added Successfully!")
         return redirect('add_subject')
         # except:
         #     messages.error(request, "Failed to Add subject!")
         #     return redirect('add_subject')
-
 
 def manage_subject(request):
     subjects = Subjects.objects.all()
@@ -628,14 +627,13 @@ def manage_subject(request):
     }
     return render(request, 'hod_template/manage_subject_template.html', context)
 
-
 def edit_subject(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)
     courses = Courses.objects.all()
     departments = Departments.objects.all()
     # staffs = Staffs.objects.all()
     semesters = Semesters.objects.all()
-    staffs = CustomUser.objects.filter(user_type='2')
+    staffs = Staffs.objects.all()
     context = {
         "subject": subject,
         "departments":departments,
