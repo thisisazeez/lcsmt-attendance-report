@@ -6,11 +6,13 @@ from .import HodViews, StaffViews, StudentViews
 
 urlpatterns = [
     path('', views.loginPage, name="login"),
+
     #  path('accounts/', include('django.contrib.auth.urls')),
     path('doLogin/', views.doLogin, name="doLogin"),
     path('get_user_details/', views.get_user_details, name="get_user_details"),
     path('logout_user/', views.logout_user, name="logout_user"),
     path('admin_home/', HodViews.admin_home, name="admin_home"),
+
     # admin staff
     path('add_staff/', HodViews.add_staff, name="add_staff"),
     path('add_staff_save/', HodViews.add_staff_save, name="add_staff_save"),
@@ -18,6 +20,7 @@ urlpatterns = [
     path('edit_staff/<staff_id>/', HodViews.edit_staff, name="edit_staff"),
     path('edit_staff_save/', HodViews.edit_staff_save, name="edit_staff_save"),
     path('delete_staff/<staff_id>/', HodViews.delete_staff, name="delete_staff"),
+
     # admin department
     path('add_department/', HodViews.add_department, name="add_department"),
     path('add_department_save/', HodViews.add_department_save, name="add_department_save"),
@@ -25,6 +28,7 @@ urlpatterns = [
     path('edit_department/<department_id>/', HodViews.edit_department, name="edit_department"),
     path('edit_department_save/', HodViews.edit_department_save, name="edit_department_save"),
     path('delete_department/<department_id>/', HodViews.delete_department, name="delete_department"),
+
     # admin course
     path('add_course/', HodViews.add_course, name="add_course"),
     path('add_course_save/', HodViews.add_course_save, name="add_course_save"),
@@ -32,6 +36,7 @@ urlpatterns = [
     path('edit_course/<course_id>/', HodViews.edit_course, name="edit_course"),
     path('edit_course_save/', HodViews.edit_course_save, name="edit_course_save"),
     path('delete_course/<course_id>/', HodViews.delete_course, name="delete_course"),
+
     # admin session
     path('manage_session/', HodViews.manage_session, name="manage_session"),
     path('add_session/', HodViews.add_session, name="add_session"),
@@ -39,6 +44,7 @@ urlpatterns = [
     path('edit_session/<session_id>', HodViews.edit_session, name="edit_session"),
     path('edit_session_save/', HodViews.edit_session_save, name="edit_session_save"),
     path('delete_session/<session_id>/', HodViews.delete_session, name="delete_session"),
+
     # admin intake
     path('add_intake/', HodViews.add_intake, name="add_intake"),
     path('add_intake_save/', HodViews.add_intake_save, name="add_intake_save"),
@@ -55,13 +61,20 @@ urlpatterns = [
     path('edit_semester_save/', HodViews.edit_semester_save, name="edit_semester_save"),
     path('delete_semester/<semester_id>/', HodViews.delete_semester, name="delete_semester"),
 
-    # admin Student
+    # admin student
     path('add_student/', HodViews.add_student, name="add_student"),
     path('add_student_save/', HodViews.add_student_save, name="add_student_save"),
-    path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
-    path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
     path('manage_student/', HodViews.manage_student, name="manage_student"),
+    path('edit_student/<student_id>/', HodViews.edit_student, name="edit_student"),
+    path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
     path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
+    # # admin Student
+    # path('add_student/', HodViews.add_student, name="add_student"),
+    # path('add_student_save/', HodViews.add_student_save, name="add_student_save"),
+    # path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
+    # path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
+    # path('manage_student/', HodViews.manage_student, name="manage_student"),
+    # path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
     # admin subject
     path('add_subject/', HodViews.add_subject, name="add_subject"),
     path('add_subject_save/', HodViews.add_subject_save, name="add_subject_save"),
