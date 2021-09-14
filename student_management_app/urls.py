@@ -109,6 +109,7 @@ urlpatterns = [
 
     # URSL for Student
     path('student_home/', StudentViews.student_home, name="student_home"),
+    path('course_registration/', StudentViews.course_registration, name="course_registration"),
     path('student_view_attendance/', StudentViews.student_view_attendance, name="student_view_attendance"),
     path('student_view_attendance_post/', StudentViews.student_view_attendance_post, name="student_view_attendance_post"),    
     path('student_profile/', StudentViews.student_profile, name="student_profile"),

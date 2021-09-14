@@ -37,6 +37,17 @@
             </li>
 
             <li class="nav-item">
+              {% url 'course_registration' as course_registration %}
+              <a href="{{ course_registration }}" class="nav-link {% if request.path == course_registration %} active {% endif %}">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  Course Registration
+                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               {% url 'student_view_attendance' as student_view_attendance %}
               <a href="{{ student_view_attendance }}" class="nav-link {% if request.path == student_view_attendance %} active {% endif %}">
                 <i class="nav-icon fas fa-calendar-alt"></i>

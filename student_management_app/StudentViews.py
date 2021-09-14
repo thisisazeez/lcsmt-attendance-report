@@ -5,11 +5,12 @@ from django.core.files.storage import FileSystemStorage #To upload Profile Pictu
 from django.urls import reverse
 import datetime # To Parse input DateTime into Python Date Time Object
 
-from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, Attendance # AttendanceReport,  StudentResult
+from student_management_app.models import CustomUser, Departments, Semesters, Staffs, Courses, Subjects, Students, Attendance, Registrations # AttendanceReport,  StudentResult
 
 
 def student_home(request):
     student_obj = Students.objects.get(admin=request.user.id)
+    # student_id = student_obj.id
     # total_attendance = AttendanceReport.objects.filter(student_id=student_obj).count()
     # attendance_present = AttendanceReport.objects.filter(student_id=student_obj, status=True).count()
     # attendance_absent = AttendanceReport.objects.filter(student_id=student_obj, status=False).count()
@@ -39,6 +40,50 @@ def student_home(request):
         "data_absent": data_absent
     }
     return render(request, "student_template/student_home_template.html", context)
+
+def course_registration(request):
+    departments = Departments.objects.all()
+    student= Students.objects.get(admin = request.user.id)
+    # for dept in departments:
+    #     print( student.department)
+    #     if student.department.id == dept.id:
+    #         department = dept.id 
+    #         break
+
+    staffs = Staffs.objects.all()
+    courses = Courses.objects.all()
+    semesters = Semesters.objects.all()
+    subjects = Subjects.objects.all()
+
+    context = {
+        "departments":departments,
+        "staffs":staffs,
+        "subjects":subjects,
+        "semesters":semesters,
+        "courses":courses,
+    }
+    return render(request, "student_template/course_registration_template.html", context)
+
+def course_registration(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('course_registration')
+    else:
+        # subject = request.POST.get('subject')
+        subject = request.POST.get('subject')
+        course = request.POST.get('course')
+        semester = request.POST.get('semester')
+        department = request.POST.get('department')
+
+        print(department)
+        # try:
+        course_reg = Registrations(department=Departments.objects.get( department_name=department), semester=Semesters.objects.get( semester_name=semester), course=Courses.objects.get(course_name=course), subject=Subjects.objects.get(id=subject))
+        course_reg.save  ()
+        messages.success(request, "student Added Successfully!")
+        return redirect('course_registration')
+        # except:
+        #     messages.error(request, "Failed to Add student!")
+        #     return redirect('course_registration')
 
 def student_view_attendance(request):
     student = Students.objects.get(admin=request.user.id) # Getting Logged in Student Data

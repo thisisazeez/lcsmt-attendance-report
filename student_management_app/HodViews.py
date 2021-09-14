@@ -58,8 +58,8 @@ def admin_home(request):
 
     students = Students.objects.all()
     for student in students:
-        attendance = Attendance.objects.filter(student_id=student.id, status=True).count()
-        absent = Attendance.objects.filter(student_id=student.id, status=False).count()
+        # attendance = Attendance.objects.filter(student_id=student.id, status=True).count()
+        # absent = Attendance.objects.filter(student_id=student.id, status=False).count()
         student_attendance_present_list.append(attendance)
         student_name_list.append(student.admin.first_name)
 
@@ -497,7 +497,17 @@ def delete_session(request, session_id):
 
 # #students
 def add_student(request):
-    return render(request, 'hod_template/add_student_template.html')
+    departments = Departments.objects.all()
+    courses = Courses.objects.all()
+    intakes = Intakes.objects.all()
+    # sessions = SessionYearModel.objects.all()
+    context = {
+        "departments":departments,
+        "courses":courses,
+        "intakes":intakes,
+        # "sessions":sessions,
+    }
+    return render(request, 'hod_template/add_student_template.html', context)
 
 def add_student_save(request):
     if request.method != "POST":
@@ -511,8 +521,19 @@ def add_student_save(request):
         password = "lincolnstudent12345"
         address = request.POST.get('address')
 
+        course = request.POST.get('course')
+        department = request.POST.get('department')
+        intake = request.POST.get('intake')
+        gender = request.POST.get('gender')
+        session = request.POST.get('session')
+
         # try:
-        user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=3)
+        user = CustomUser.objects.create_user(username=username, password=password, email=email, 
+        gender=gender, first_name=first_name, 
+        last_name=last_name,department=Departments.objects.get( department_name=department), 
+        # session=SessionYearModel.objects.get( session_name=session), 
+        intake=Intakes.objects.get( intake_name=intake), 
+        course=Courses.objects.get(course_name=course), user_type=3)
         user.students.address = address
         user.save()
         messages.success(request, "student Added Successfully!")
@@ -631,7 +652,6 @@ def edit_subject(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)
     courses = Courses.objects.all()
     departments = Departments.objects.all()
-    # staffs = Staffs.objects.all()
     semesters = Semesters.objects.all()
     staffs = Staffs.objects.all()
     context = {
