@@ -8,7 +8,7 @@ from django.core import serializers
 import json
 
 
-from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance #AttendanceReport, StudentResult
+from student_management_app.models import CustomUser, Departments, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance #AttendanceReport, StudentResult
 
 
 def staff_home(request):
@@ -66,38 +66,50 @@ def staff_home(request):
  
 
 def staff_take_attendance(request):
-    subjects = Subjects.objects.filter(id=request.user.id)
+    departments = Departments.objects.filter()
     session_years = SessionYearModel.objects.all()
     context = {
-        "subjects": subjects,
+        "departments": departments,
         "session_years": session_years
     }
     return render(request, "staff_template/take_attendance_template.html", context)
+
 
 
 # WE don't need csrf_token when using Ajax
 @csrf_exempt
 def get_students(request):
     # Getting Values from Ajax POST 'Fetch Student'
-    subject_id = request.POST.get("subject")
+    department_id = request.POST.get("department")
     session_year = request.POST.get("session_year")
 
+    department = Departments.objects.get(id = int(department_id))
+    session = SessionYearModel.objects.get(id = int(session_year))
+    students = Students.objects.filter(department=department).filter(session_year=session)
+    
+    context = {
+        'department': department,
+        'session': session,
+        'students': students
+    }
     # Students enroll to Course, Course has Subjects
     # Getting all data from subject model based on subject_id
-    subject_model = Subjects.objects.get(id=subject_id)
+    # subject_model = Subjects.objects.get(id=subject_id)
 
-    session_model = SessionYearModel.objects.get(id=session_year)
+    # session_model = SessionYearModel.objects.get(id=session_year)
 
-    students = Students.objects.filter(id=subject_model.course_id, session_year_id=session_model)
+    # students = Students.objects.filter(id=subject_model.course_id, session_year_id=session_model)
 
-    # Only Passing Student Id and Student Name Only
-    list_data = []
+    # # Only Passing Student Id and Student Name Only
+    # list_data = []
 
-    for student in students:
-        data_small={"id":student.admin.id, "name":student.admin.first_name+" "+student.admin.last_name}
-        list_data.append(data_small)
+    # for student in students:
+    #     data_small={"id":student.admin.id, "name":student.admin.first_name+" "+student.admin.last_name}
+    #     list_data.append(data_small)
+    
+    return render(request, "staff_template/get_students.html", context)
 
-    return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
+    # return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
 
 
 

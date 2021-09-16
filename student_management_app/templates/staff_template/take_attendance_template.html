@@ -47,12 +47,13 @@
                             
 
                         <div class="card-body">
-                           
+                           <form method="POST" action="{% url 'get_students' %}">
+                               {% csrf_token %}
                             <div class="form-group">
-                                <label>Subject </label>
-                                <select class="form-control" name="subject" id="subject">
-                                    {% for subject in subjects %}
-                                        <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                                <label>Department</label>
+                                <select class="form-control" name="department" id="subject">
+                                    {% for department in departments %}
+                                    <option value="{{ department.id }}">{{ department.department_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -70,9 +71,9 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                        <button type="button" class="btn btn-primary" id="fetch_student">Fetch Student</button>
+                        <input type="submit" class="btn btn-primary" id="fetch_student" value="Fetch Student">
                         </div>
-
+                    </form>
                         {% comment %} Displaying Students Here {% endcomment %}
 
                         <div class="card-footer" id="student_data">
@@ -91,7 +92,7 @@
 
 {% block custom_js %}
 
-<script>
+<!-- <script>
     $(document).ready(function(){
         $("#fetch_student").click(function(){
 
@@ -186,5 +187,5 @@
 
         })
     })
-</script>
+</script> -->
 {% endblock custom_js %}

@@ -1,0 +1,32 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+    Take Attendance
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+            <div class="card p-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Student ID</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Present</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                      <td>{{student.id}}</td>
+                      <td>{{student.admin.get_full_name}}</td>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+{% endblock main_content %}

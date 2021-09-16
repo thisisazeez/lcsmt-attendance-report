@@ -124,6 +124,7 @@ class Registretions(models.Model):
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
+    department = models.ForeignKey(Departments, on_delete=models.DO_NOTHING, blank=True, null=True)
     subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
     attendance_date = models.DateField(auto_now=True)
     session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE, blank=True, null=True)
