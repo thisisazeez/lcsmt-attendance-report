@@ -1,7 +1,9 @@
+
+
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Manage Student
+    View Course Registration
 {% endblock page_title %}
 
 {% block main_content %}
@@ -11,7 +13,7 @@
 <section class="content">
         <div class="container-fluid">
 
-            <a class="btn btn-primary" href="{% url 'add_student' %}" role="button">+ Add Student</a> <br/>&nbsp;
+            <a class="btn btn-primary" href="{% url 'course_registration' %}" role="button">+ Course Registration</a> <br/>&nbsp;
 
             {% if messages %}
                                 <div class="form-group">
@@ -44,7 +46,7 @@
                     <!-- general form elements -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Student Details</h3>
+                            <h3 class="card-title">Subject Details</h3>
 
                             <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
@@ -62,31 +64,31 @@
                             <thead>
                                 <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Address</th>
+                                <th>Subject</th>
+                                <th>Department</th>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <!-- <th>Address</th>
                                 <th>Last Login</th>
                                 <th>Date Joined</th>
-                                <th>Action</th>
+                                <th>Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for student in students %}
+                                {% for registered_course in registered_courses %}
                                 <tr>
-                                <td>{{ student.admin.id }}</td>
-                                <td>{{ student.admin.first_name }}</td>
-                                <td>{{ student.admin.last_name }}</td>
-                                <td>{{ student.admin.username }}</td>
-                                <td>{{ student.admin.email }}</td>
-                                <td>{{ student.address }}</td>
-                                <td>{{ student.admin.last_login }}</td>
-                                <td>{{ student.admin.date_joined }}</td>
-                                <td>
-                                    <a href="{% url 'edit_student' student.admin.id %}" class="btn btn-success">Edit</a> 
-                                    <a href="{% url 'delete_student' student.admin.id %}" class="btn btn-danger">Delete</a>
-                                </td>
+                                <td>{{ registered_course.id }}></td>
+                                <td>{{ registered_course.subject.subject_name }}</td>
+                                <td>{{ registered_course.department.department_name }}</td>
+                                <td>{{ registered_course.course.course_name }}</td>
+                                <td>{{ registered_course.semester.semester_name }}</td>
+                                <!-- <td>{{ registered_course.address }}</td>
+                                <td>{{ registered_course.last_login }}</td>
+                                <td>{{ registered_course.date_joined }}</td> -->
+                                <!-- <td>
+                                    <a href="% url 'edit_course_registration' course_registration.id %}" class="btn btn-success">Edit</a> 
+                                    <a href="{url 'delete_course_registration' course_registration.id %}" class="btn btn-danger">Delete</a>
+                                </td> -->
                                 </tr>
                                 {% endfor %}
                                 
