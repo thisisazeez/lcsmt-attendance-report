@@ -1,7 +1,7 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Add Subject
+    Edit Course Registration | #ID : {{ course_registration.id }}
 {% endblock page_title %}
 
 {% block main_content %}
@@ -16,11 +16,11 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Subject</h3>
+                        <h3 class="card-title">Edit Subject</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'add_subject_save' %}">
+                    <form role="form" method="POST" action="{% url 'edit_subject_save' %}">
                         {% csrf_token %}
 
                         
@@ -38,7 +38,7 @@
                                         </div>
                                     {% elif message.tags == "success" %}
                                         <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                           {{ message }}
+                                        {{ message }}
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -53,14 +53,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Subject Name </label>
-                                <input type="text" class="form-control" name="subject" name="subject" placeholder="Enter Subject">
+                                <input type="text" class="form-control" name="subject" value="{{ subject.subject_name }}">
                             </div>
 
+                            
                             <div class="form-group">
                                 <label>Department:</label>
                                 <select class="form-control" name="department">
                                     {% for department in departments %}
-                                        <option value="{{department.id}}">{{department.department_name }}</option>
+                                        <option >{{ department.department_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -69,7 +70,7 @@
                                 <label>Semester:</label>
                                 <select class="form-control" name="semester">
                                     {% for semester in semesters %}
-                                        <option>{{ semester.semester_name }}</option>
+                                        <option>{{ semester.semester_name}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -91,12 +92,25 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <input type="hidden" name="subject_id" value="{{ subject.id }}" />
+
+                            <!-- <div class="form-group">
+                                <label>Staff </label>
+                                <select class="form-control" name="staff">
+                                    {% for staff in staffs %}
+                                        <option value="{{ staff.id }}" {% if staff.id == subject.staff_id.id %} selected {% endif %}>{{ staff.first_name }} {{ staff.last_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                                <input type="hidden" name="subject_id" value="{{ subject.id }}" />
+                            </div> -->
 
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Subject</button>
+                        
+                        <button type="submit" class="btn btn-primary">Update Subject</button>
                         </div>
                     </form>
                     </div>

@@ -497,17 +497,17 @@ def delete_session(request, session_id):
 
 # #students
 def add_student(request):
-    departments = Departments.objects.all()
-    courses = Courses.objects.all()
-    intakes = Intakes.objects.all()
-    # sessions = SessionYearModel.objects.all()
-    context = {
-        "departments":departments,
-        "courses":courses,
-        "intakes":intakes,
+    # departments = Departments.objects.all()
+    # courses = Courses.objects.all()
+    # intakes = Intakes.objects.all()
+    # # sessions = SessionYearModel.objects.all()
+    # context = {
+    #     "departments":departments,
+    #     "courses":courses,
+    #     "intakes":intakes,
         # "sessions":sessions,
-    }
-    return render(request, 'hod_template/add_student_template.html', context)
+    # }
+    return render(request, 'hod_template/add_student_template.html')
 
 def add_student_save(request):
     if request.method != "POST":
@@ -521,19 +521,15 @@ def add_student_save(request):
         password = "lincolnstudent12345"
         address = request.POST.get('address')
 
-        course = request.POST.get('course')
-        department = request.POST.get('department')
-        intake = request.POST.get('intake')
-        gender = request.POST.get('gender')
-        session = request.POST.get('session')
+        # course = request.POST.get('course')
+        # department = request.POST.get('department')
+        # intake = request.POST.get('intake')
+        # gender = request.POST.get('gender')
+        # session = request.POST.get('session')
 
         # try:
         user = CustomUser.objects.create_user(username=username, password=password, email=email, 
-        gender=gender, first_name=first_name, 
-        last_name=last_name,department=Departments.objects.get( department_name=department), 
-        # session=SessionYearModel.objects.get( session_name=session), 
-        intake=Intakes.objects.get( intake_name=intake), 
-        course=Courses.objects.get(course_name=course), user_type=3)
+        last_name=last_name, first_name=first_name, user_type=3)
         user.students.address = address
         user.save()
         messages.success(request, "student Added Successfully!")
@@ -551,10 +547,17 @@ def manage_student(request):
 
 def edit_student(request, student_id):
     student = Students.objects.get(admin=student_id)
-
+    departments = Departments.objects.all()
+    courses = Courses.objects.all()
+    intakes = Intakes.objects.all()
+    # sessions = SessionYearModel.objects.all()
     context = {
+        # "sessions":sessions
+        "departments":departments,
+        "courses":courses,
+        "intakes":intakes,
         "student": student,
-        "id": student_id
+        "student_id": student_id
     }
     return render(request, "hod_template/edit_student_template.html", context)
 
@@ -563,35 +566,47 @@ def edit_student_save(request):
         return HttpResponse("<h2>Method Not Allowed</h2>")
     else:
         student_id = request.POST.get('student_id')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
         address = request.POST.get('address')
+        course = request.POST.get('course')
+        department = request.POST.get('department')
+        intake = request.POST.get('intake')
+        gender = request.POST.get('gender')
+        session = request.POST.get('session')
+        password = request.POST.get('password')
 
-        try:
-            # INSERTING into Customuser Model
-            user = CustomUser.objects.get(id=student_id)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.email = email
-            if password != None and password != "":
-                user.set_password(password)
-            user.username = username
-            user.save()
-            
-            # INSERTING into student Model
-            student_model = Students.objects.get(admin=student_id)
-            student_model.address = address
-            student_model.save()
 
-            messages.success(request, "student Updated Successfully.")
-            return redirect('/edit_student/'+student_id)
+        # try:
+        # INSERTING into Customuser Model
+        user = CustomUser.objects.get(id=student_id)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        if password != None and password != "":
+            user.set_password(password)
+        user.username = username
+        user.save()
+        
+        # INSERTING into student Model
+        print(department)
+        student_model = Students.objects.get(admin=student_id)
+        student_model.department=Departments.objects.get(id=department) 
+        # session=SessionYearModel.objects.get( session_name=session), 
+        student_model.intake=Intakes.objects.get(intake_name=intake)
+        student_model.course=Courses.objects.get(course_name=course)
+        student_model.gender=gender
+        student_model.address = address
+        student_model.save()
 
-        except:
-            messages.error(request, "Failed to Update student.")
-            return redirect('/edit_student/'+student_id)
+        messages.success(request, "student Updated Successfully.")
+        return redirect('/edit_student/'+student_id)
+
+        # except:
+        #     messages.error(request, "Failed to Update student.")
+        #     return redirect('/edit_student/'+student_id)
 
 def delete_student(request, student_id):
     student = Students.objects.get(admin=student_id)
@@ -633,7 +648,7 @@ def add_subject_save(request):
 
         print(department)
         # try:
-        subject_model = Subjects(subject_name=subject, department=Departments.objects.get( department_name=department), semesters=Semesters.objects.get( semester_name=semester), course=Courses.objects.get(course_name=course), staff=Staffs.objects.get(id=staff))
+        subject_model = Subjects(subject_name=subject, department=Departments.objects.get(id=department), semesters=Semesters.objects.get( semester_name=semester), course=Courses.objects.get(course_name=course), staff=Staffs.objects.get(id=staff))
         subject_model.save  ()
         messages.success(request, "subject Added Successfully!")
         return redirect('add_subject')

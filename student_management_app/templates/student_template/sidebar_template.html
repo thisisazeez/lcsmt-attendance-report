@@ -48,6 +48,17 @@
             </li>
 
             <li class="nav-item">
+              {% url 'manage_course_registration' as manage_course_registration %}
+              <a href="{{ manage_course_registration }}" class="nav-link {% if request.path == manage_course_registration %} active {% endif %}">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  View Course Registration
+                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               {% url 'student_view_attendance' as student_view_attendance %}
               <a href="{{ student_view_attendance }}" class="nav-link {% if request.path == student_view_attendance %} active {% endif %}">
                 <i class="nav-icon fas fa-calendar-alt"></i>

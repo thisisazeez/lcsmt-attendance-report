@@ -116,7 +116,7 @@ class Registrations(models.Model):
     registretion_name = models.CharField(max_length=255)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, blank=True, null=True)
     student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
-    session = models.ForeignKey(Sessions, on_delete=models.DO_NOTHING, blank=True, null=True)
+    semesters = models.ForeignKey(Semesters, on_delete=models.DO_NOTHING, blank=True, null=True)
     subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
     department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

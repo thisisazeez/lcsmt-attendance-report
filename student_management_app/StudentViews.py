@@ -64,7 +64,7 @@ def course_registration(request):
     }
     return render(request, "student_template/course_registration_template.html", context)
 
-def course_registration(request):
+def course_registration_save(request):
     if request.method != "POST":
         messages.error(request, "Invalid Method!")
         return redirect('course_registration')
@@ -77,13 +77,36 @@ def course_registration(request):
 
         print(department)
         # try:
-        course_reg = Registrations(department=Departments.objects.get( department_name=department), semester=Semesters.objects.get( semester_name=semester), course=Courses.objects.get(course_name=course), subject=Subjects.objects.get(id=subject))
+        course_reg = Registrations(department=Departments.objects.get( department_name=department), course=Courses.objects.get(course_name=course), subject=Subjects.objects.get(id=subject),semesters=Semesters.objects.get( semester_name=semester))
         course_reg.save  ()
         messages.success(request, "student Added Successfully!")
         return redirect('course_registration')
         # except:
         #     messages.error(request, "Failed to Add student!")
         #     return redirect('course_registration')
+
+def manage_course_registration(request):
+    registered_courses = Registrations.objects.all()
+    context = {
+        "registered_courses": registered_courses
+    }
+    return render(request, 'student_template/manage_course_registration_template.html', context)
+
+def edit_course_registration(request, subject_id):
+    subject = Subjects.objects.get(id=subject_id)
+    courses = Courses.objects.all()
+    departments = Departments.objects.all()
+    semesters = Semesters.objects.all()
+    course_registrations = Registrations.objects.all()
+    context = {
+        "subject": subject,
+        "departments":departments,
+        "course_registrations":course_registrations,
+        "semesters":semesters,
+        "courses":courses,
+        "id": subject_id
+    }
+    return render(request, 'student_template/edit_course_registration_template.html', context)
 
 def student_view_attendance(request):
     student = Students.objects.get(admin=request.user.id) # Getting Logged in Student Data
