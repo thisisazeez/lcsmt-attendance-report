@@ -113,12 +113,13 @@ class Students(models.Model):
 
 class Registrations(models.Model):
     id = models.AutoField(primary_key=True)
-    registretion_name = models.CharField(max_length=255)
-    course = models.ForeignKey(Courses, on_delete=models.CASCADE, blank=True, null=True)
+    # registretion_name = models.CharField(max_length=255)
+    # course = models.ForeignKey(Courses, on_delete=models.CASCADE, blank=True, null=True)
     student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
     semesters = models.ForeignKey(Semesters, on_delete=models.DO_NOTHING, blank=True, null=True)
-    subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
-    department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.CharField(max_length=500)
+    # subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
+    # department = models.ForeignKey(Departments, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
