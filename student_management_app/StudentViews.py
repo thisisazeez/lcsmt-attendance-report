@@ -69,7 +69,7 @@ def course_registration(request):
             
     
     context = {
-        # "departments":departments,
+        "std_dept":std_dept,
         "student":student,
         "subjects":subjects,
         "std_crs":std_crs
