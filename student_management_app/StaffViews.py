@@ -8,7 +8,7 @@ from django.core import serializers
 import json
 
 
-from student_management_app.models import CustomUser, Departments, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance #AttendanceReport, StudentResult
+from student_management_app.models import CustomUser, Departments, Intakes, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport #StudentResult
 
 
 def staff_home(request):
@@ -67,10 +67,12 @@ def staff_home(request):
 
 def staff_take_attendance(request):
     departments = Departments.objects.filter()
-    session_years = SessionYearModel.objects.all()
+    intakes = Intakes.objects.all()
+    subjects = Subjects.objects.all()
     context = {
         "departments": departments,
-        "session_years": session_years
+        "intakes": intakes,
+        "subjects":subjects,
     }
     return render(request, "staff_template/take_attendance_template.html", context)
 
@@ -81,16 +83,20 @@ def staff_take_attendance(request):
 def get_students(request):
     # Getting Values from Ajax POST 'Fetch Student'
     department_id = request.POST.get("department")
-    session_year = request.POST.get("session_year")
+    intake_id = request.POST.get("intake")
+    subject_id = request.POST.get("subject")
 
-    department = Departments.objects.get(id = int(department_id))
-    session = SessionYearModel.objects.get(id = int(session_year))
-    students = Students.objects.filter(department=department).filter(session_year=session)
+    print(subject_id)
+    department = Departments.objects.get(id = department_id)
+    intake = Intakes.objects.get(id = intake_id)
+    subject = Subjects.objects.get(id = subject_id)
+    students = Students.objects.filter(department=department).filter(intake=intake)# .filter(subject=subject)
     
     context = {
         'department': department,
-        'session': session,
-        'students': students
+        'intake': intake,
+        'students': students,
+        'subject' : subject,
     }
     # Students enroll to Course, Course has Subjects
     # Getting all data from subject model based on subject_id
@@ -111,7 +117,32 @@ def get_students(request):
 
     # return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
 
-
+def submit_attendance(request):
+    # print(json.loads(request.POST['body']))
+    if request.method == 'POST':
+        department_id = int(request.POST.get('department'))
+        intake_id = int(request.POST.get('intake'))
+        subject_id = int(request.POST.get('subject'))
+        department = Departments.objects.get(id=department_id)
+        intake = Intakes.objects.get(id=intake_id)
+        subject = Subjects.objects.get(id=subject_id)
+        for key, value in request.POST.items():
+            if key == 'csrfmiddlewaretoken' or key == 'department' or key == 'intake' or key == 'subject':
+                pass
+            else:
+                attendance = Attendance.objects.create (
+                    department = department,
+                    intake = intake,
+                    subject = subject,
+                    students = Students.objects.get(id = int(key)),
+                    # staff = request.user,
+                    present = True,
+                    absent = True,
+                    medic_leave = True,
+                    assignment = True
+                )
+                attendance.save()
+        return HttpResponse('<h1>Attendance taken</h1>')
 
 
 @csrf_exempt

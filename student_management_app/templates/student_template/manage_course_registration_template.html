@@ -1,9 +1,7 @@
-
-
-{% extends 'hod_template/base_template.html' %}
+{% extends 'student_template/base_template.html' %}
 
 {% block page_title %}
-    View Course Registration
+    Course Registration
 {% endblock page_title %}
 
 {% block main_content %}
@@ -13,9 +11,21 @@
 <section class="content">
         <div class="container-fluid">
 
-            <a class="btn btn-primary" href="{% url 'course_registration' %}" role="button">+ Course Registration</a> <br/>&nbsp;
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Course Registration</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" method="POST" action="{% url 'course_registration_save' %}">
+                        {% csrf_token %}
 
-            {% if messages %}
+                        
+                                {% comment %} Display Messages {% endcomment %}
+                                {% if messages %}
                                 <div class="form-group">
                                 <div class="col-12">
                                     {% for message in messages %}
@@ -28,7 +38,7 @@
                                         </div>
                                     {% elif message.tags == "success" %}
                                         <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
+                                           {{ message }}
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -38,65 +48,84 @@
                                 </div>
                                 </div>
                                 {% endif %}
-                                
+                                                            
+                            <input type="hidden" name="student_id" value="{{ student.id }}" />
 
-            <div class="row">
 
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Subject Details</h3>
-
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        <!-- <div class="card-body"> -->
+                            <div class="card-body table-responsive p-0">
+                                <div class="form-group">
+                                    <label>Department:</label>
+                                    <input class="form-control" name="department" value = "{{ student.department.department_name }}" disabled>
                                 </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Subject</th>
-                                <th>Department</th>
-                                <th>Course</th>
-                                <th>Semester</th>
-                                <!-- <th>Address</th>
-                                <th>Last Login</th>
-                                <th>Date Joined</th>
-                                <th>Action</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for registered_course in registered_courses %}
-                                <tr>
-                                <td>{{ registered_course.id }}></td>
-                                <td>{{ registered_course.subject.subject_name }}</td>
-                                <td>{{ registered_course.department.department_name }}</td>
-                                <td>{{ registered_course.course.course_name }}</td>
-                                <td>{{ registered_course.semester.semester_name }}</td>
-                                <!-- <td>{{ registered_course.address }}</td>
-                                <td>{{ registered_course.last_login }}</td>
-                                <td>{{ registered_course.date_joined }}</td> -->
-                                <!-- <td>
-                                    <a href="% url 'edit_course_registration' course_registration.id %}" class="btn btn-success">Edit</a> 
-                                    <a href="{url 'delete_course_registration' course_registration.id %}" class="btn btn-danger">Delete</a>
-                                </td> -->
-                                </tr>
-                                {% endfor %}
+    <!-- 
+                                <div class="form-group">
+                                    <label>Semester:</label>
+                                    <select class="form-control" name="semester">
+                                        {% for semester in semesters %}
+                                            <option>{{ semester.semester_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div> -->
                                 
-                            </tbody>
-                            </table>
-                        </div>
+                                <div class="form-group">
+                                    <label>Course:</label>
+                                    <input type="text" class="form-control" name="course" value="{{ std_crs }}" disabled>
+                                </div>
+                                
+                                <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                    <th>ID</th>
+                                    <th>Subject</th>
+                                    <th>Department</th>
+
+                                    <!-- <th>Course</th> -->
+                                    <!-- <th>Semester</th> -->
+                                    <!-- <th>Address</th>
+                                    <th>Last Login</th>
+                                    <th>Date Joined</th>
+                                    <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subject in subjects %}
+                                    
+                                    {% if subject.department.department_name == std_dept  %}
+                                        
+                                   
+                                        
+                                    <tr>
+                                    <td> <input type="checkbox" checked name="check_id" value="{{subject.id}}" >{{ subject.id }}</td>
+                                    <td>{{ subject.subject_name }}</td>
+                                    <td>{{ subject.department.department_name }}</td>
+                                    <!-- <td>{{ courses.course_name }}</td> -->
+                                    <!-- <td>{{ subject.semester.semester_name }}</td> -->
+                                    <!-- <td>{{ subject.address }}</td>
+                                    <td>{{ subject.last_login }}</td>
+                                    <td>{{ subject.date_joined }}</td> -->
+                                    <!-- <td>
+                                        <a href="% url 'edit_course_registration' course_registration.id %}" class="btn btn-success">Edit</a> 
+                                        <a href="{url 'delete_course_registration' course_registration.id %}" class="btn btn-danger">Delete</a>
+                                    </td> -->
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+
+
+
+                        <!-- </div> -->
                         <!-- /.card-body -->
+
+                        <div class="card-footer">
+                        <!-- <button type="submit" class="btn btn-primary">Save</button> -->
                         </div>
+                    </form>
+                    </div>
                     <!-- /.card -->
 
                 </div>

@@ -7,16 +7,7 @@
 #     input_type = "date"
 
 
-<<<<<<< HEAD
-class AddStudentForm(forms.Form):
-    email = forms.EmailField(label="Email", max_length=50, widget=forms.EmailInput(attrs={"class":"form-control"}))
-    password = forms.CharField(label="Password", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
-    first_name = forms.CharField(label="First Name", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
-    last_name = forms.CharField(label="Last Name", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))#disabled=True
-    username = forms.CharField(label="Username", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
-    address = forms.CharField(label="Address", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
-    student_id = forms.CharField(label="Student ID", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
-=======
+
 # class AddStudentForm(forms.Form):
 #     email = forms.EmailField(label="Email", max_length=50, widget=forms.EmailInput(attrs={"class":"form-control"}))
 #     password = forms.CharField(label="Password", max_length=50, widget=forms.TextInput(attrs={"class":"form-control", "value":"lincoln1234567890"}), )
@@ -25,8 +16,6 @@ class AddStudentForm(forms.Form):
 #     username = forms.CharField(label="Username", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
 #     address = forms.CharField(label="Address", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
 #     student_id = forms.CharField(label="Student ID", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
->>>>>>> refs/remotes/origin/master
-
 #     #For Displaying Courses
 #     try:
 #         courses = Courses.objects.all()

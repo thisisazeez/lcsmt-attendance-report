@@ -60,7 +60,7 @@ def admin_home(request):
     for student in students:
         # attendance = Attendance.objects.filter(student_id=student.id, status=True).count()
         # absent = Attendance.objects.filter(student_id=student.id, status=False).count()
-        student_attendance_present_list.append(attendance)
+        # student_attendance_present_list.append(attendance)
         student_name_list.append(student.admin.first_name)
 
 
@@ -520,6 +520,7 @@ def add_student_save(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = "lincolnstudent12345"
+        parent_password = "password"
         address = request.POST.get('address')
 
         # course = request.POST.get('course')
@@ -530,7 +531,7 @@ def add_student_save(request):
 
         # try:
         user = CustomUser.objects.create_user(username=username, password=password, email=email, 
-        last_name=last_name, first_name=first_name, user_type=3)
+        last_name=last_name, first_name=first_name, parent_password=parent_password, user_type=3)
         user.students.address = address
         user.save()
         messages.success(request, "student Added Successfully!")
@@ -728,6 +729,28 @@ def delete_subject(request, subject_id):
     except:
         messages.error(request, "Failed to Delete Subject.")
         return redirect('manage_subject')
+
+
+def get_attendance(request):
+    # Getting Values from Ajax POST 'Fetch Student'
+    department_id = request.POST.get("department")
+    intake_id = request.POST.get("intake")
+    subject_id = request.POST.get("subject")
+
+    print(subject_id)
+    department = Departments.objects.get(id = department_id)
+    intake = Intakes.objects.get(id = intake_id)
+    subject = Subjects.objects.get(id = subject_id)
+    students = Students.objects.filter(department=department).filter(intake=intake)# .filter(subject=subject)
+    
+    context = {
+        'department': department,
+        'intake': intake,
+        'students': students,
+        'subject' : subject,
+    }
+
+    return render(request, "hod_template/get_attendace.html", context)
 
 
 # The exempts

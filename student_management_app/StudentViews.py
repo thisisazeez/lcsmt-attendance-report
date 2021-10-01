@@ -42,25 +42,39 @@ def student_home(request):
     return render(request, "student_template/student_home_template.html", context)
 
 def course_registration(request):
-    departments = Departments.objects.all()
     student= Students.objects.get(admin = request.user.id)
     # for dept in departments:
     #     print( student.department)
     #     if student.department.id == dept.id:
     #         department = dept.id 
     #         break
-
-    staffs = Staffs.objects.all()
-    courses = Courses.objects.all()
-    semesters = Semesters.objects.all()
-    subjects = Subjects.objects.all()
-
+    # student = Students.objects.get(admin = a)
+    subjects = Subjects.objects.all()#(course= student.course.id)
+    
+    # print(subjects.course)
+    # print(student.department.department_name)
+    std_dept =student.department.department_name
+    std_crs = student.course.course_name
+    # for subject in subjects:
+    #     if subject.course.course_name == std_crs:
+    #         print (subject.subject_name)
+    departments = Departments.objects.get(department_name=std_dept)
+    # courses = Courses.objects.get(course_name= std_crs)
+    # semesters = Semesters.objects.get(id=student.semester.id)
+    # subjects = Subjects.objects.get(course= student.course.id)
+    staffs = Staffs.objects.all()   
+    # for sub in all_subjects:
+    #     subjects = sub.objects.filter(course = course.id)
+            
+            
+    
     context = {
-        "departments":departments,
-        "staffs":staffs,
+        "std_dept":std_dept,
+        "student":student,
         "subjects":subjects,
-        "semesters":semesters,
-        "courses":courses,
+        "std_crs":std_crs
+        # "semesters":semesters,
+        # "courses":courses,
     }
     return render(request, "student_template/course_registration_template.html", context)
 
@@ -69,28 +83,82 @@ def course_registration_save(request):
         messages.error(request, "Invalid Method!")
         return redirect('course_registration')
     else:
-        # subject = request.POST.get('subject')
-        subject = request.POST.get('subject')
+        student_id = request.POST.get('student_id')
+        subject = request.POST.getlist('check_id')
         course = request.POST.get('course')
         semester = request.POST.get('semester')
         department = request.POST.get('department')
 
-        print(department)
+        print(subject)
         # try:
-        course_reg = Registrations(department=Departments.objects.get( department_name=department), course=Courses.objects.get(course_name=course), subject=Subjects.objects.get(id=subject),semesters=Semesters.objects.get( semester_name=semester))
-        course_reg.save  ()
-        messages.success(request, "student Added Successfully!")
+        course_reg = Registrations(subject=subject, student = Students.objects.get(id=student_id ))#Subjects.objects.get(id=subject))#semesters=Semesters.objects.get( semester_name=semester)) #Departments.objects.get( department_name=department), course=Courses.objects.get(course_name=course),
+        course_reg.save()
+        messages.success(request, "Subjects Registered Successfully!")
         return redirect('course_registration')
         # except:
-        #     messages.error(request, "Failed to Add student!")
+        # messages.error(request, "Failed to Add student!")
         #     return redirect('course_registration')
 
 def manage_course_registration(request):
-    registered_courses = Registrations.objects.all()
+    student= Students.objects.get(admin = request.user.id)
+
+    subjects = Subjects.objects.all()#(course= student.course.id)
+    
+    # print(subjects.course)
+    # print(student.department.department_name)
+    std_dept =student.department.department_name
+    std_crs = student.course.course_name
+    # for subject in subjects:
+    #     if subject.course.course_name == std_crs:
+    #         print (subject.subject_name)
+    departments = Departments.objects.get(department_name=std_dept)
+    # courses = Courses.objects.get(course_name= std_crs)
+    # semesters = Semesters.objects.get(id=student.semester.id)
+    # subjects = Subjects.objects.get(course= student.course.id)
+    # staffs = Staffs.objects.all()   
+    # for sub in all_subjects:
+    #     subjects = sub.objects.filter(course = course.id)
+            
+            
+    
     context = {
-        "registered_courses": registered_courses
+        "departments":departments,
+        "student":student,
+        "subjects":subjects,
+        "std_crs":std_crs,
+        # "semesters":semesters,
+        # "courses":courses,
     }
-    return render(request, 'student_template/manage_course_registration_template.html', context)
+    return render(request, "student_template/manage_course_registration_template.html", context)
+# def manage_course_registration(request):
+#     student= Students.objects.get(admin = request.user.id)
+#     registered_courses = Registrations.objects.get(student= student)
+#     print(registered_courses.subject)
+#     context = {
+#         "registered_courses": registered_courses
+#     }
+#     return render(request, 'student_template/manage_course_registration_template.html', context)
+
+# def manage_course_registration_save(request):
+#     if request.method != "POST":
+#         messages.error(request, "Invalid Method!")
+#         return redirect('manage_course_registration')
+#     else:
+#         # subject = request.POST.get('subject')
+#         subject = request.POST.get('subject')
+#         # course = request.POST.get('course')
+#         # semester = request.POST.get('semester')
+#         # department = request.POST.get('department')
+
+#         print(subject)
+#         # try:
+#         # course_reg = Registrations(subject=Subjects.objects.get(id=subject))#semesters=Semesters.objects.get( semester_name=semester)) #Departments.objects.get( department_name=department), course=Courses.objects.get(course_name=course),
+#         # course_reg.save()
+#         messages.success(request, "Subjects Registered Successfully!")
+#         return redirect('manage_course_registration')
+#         # except:
+#         # messages.error(request, "Failed to Add student!")
+#         #     return redirect('course_registration')
 
 def edit_course_registration(request, subject_id):
     subject = Subjects.objects.get(id=subject_id)

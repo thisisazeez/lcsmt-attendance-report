@@ -1,4 +1,4 @@
-{% extends 'student_template/base_template.html' %}
+    {% extends 'student_template/base_template.html' %}
 
 {% block page_title %}
     Course Registration
@@ -48,10 +48,56 @@
                                 </div>
                                 </div>
                                 {% endif %}
-                            
+                                                            
+                            <input type="hidden" name="student_id" value="{{ student.id }}" />
 
-                        <div class="card-body">
-                            <div class="form-group">
+
+                        <!-- <div class="card-body"> -->
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                    <th>ID</th>
+                                    <th>Subject</th>
+                                    <th>Department</th>
+
+                                    <!-- <th>Course</th> -->
+                                    <!-- <th>Semester</th> -->
+                                    <!-- <th>Address</th>
+                                    <th>Last Login</th>
+                                    <th>Date Joined</th>
+                                    <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subject in subjects %}
+                                    
+                                    {% if subject.department.department_name == std_dept  %}
+                                        
+                                   
+                                        
+                                    <tr>
+                                    <td> <input type="checkbox" name="check_id" value="{{subject.id}}" >{{ subject.id }}</td>
+                                    <td>{{ subject.subject_name }}</td>
+                                    <td>{{ subject.department.department_name }}</td>
+                                    <!-- <td>{{ courses.course_name }}</td> -->
+                                    <!-- <td>{{ subject.semester.semester_name }}</td> -->
+                                    <!-- <td>{{ subject.address }}</td>
+                                    <td>{{ subject.last_login }}</td>
+                                    <td>{{ subject.date_joined }}</td> -->
+                                    <!-- <td>
+                                        <a href="% url 'edit_course_registration' course_registration.id %}" class="btn btn-success">Edit</a> 
+                                        <a href="{url 'delete_course_registration' course_registration.id %}" class="btn btn-danger">Delete</a>
+                                    </td> -->
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+
+                            <!-- <div class="form-group">
                                 <label>Subject:</label>
                                 <select class="form-control" name="subject">
                                     {% for subject in subjects %}
@@ -85,13 +131,13 @@
                                         <option>{{ course.course_name }}</option>
                                     {% endfor %}
                                 </select>
-                            </div>
+                            </div> -->
 
-                        </div>
+                        <!-- </div> -->
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Subject</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                     </div>

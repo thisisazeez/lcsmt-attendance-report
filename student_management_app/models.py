@@ -15,6 +15,7 @@ class SessionYearModel(models.Model):
 class CustomUser(AbstractUser):
     user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
+    parent_password = models.CharField(max_length=900, default=3)
 
 class AdminHOD(models.Model):
     id = models.AutoField(primary_key=True)
@@ -69,8 +70,8 @@ class Courses(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-    # def __str__(self):
-	#     return self.course_name
+    def __str__(self):
+	    return self.course_name
 
 class Subjects(models.Model):
     id = models.AutoField(primary_key=True)
@@ -99,9 +100,11 @@ class Students(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
     gender = models.CharField(max_length=50)
+    parent_password = models.CharField(max_length=900, blank=True, null=True)
     # profile_pic = models.FileField()
     intake = models.ForeignKey(Intakes, on_delete=models.DO_NOTHING,blank=True, null=True)
     department = models.ForeignKey(Departments,on_delete=models.CASCADE, blank=True, null=True)
+    # subject = models.ForeignKey(Subjects,on_delete=models.CASCADE, blank=True, null=True)
     course = models.ForeignKey(Courses, on_delete=models.DO_NOTHING, blank=True, null=True)
     # session = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE, blank=True, null=True)
     # registered_subjects = models.ForeignKey(Registrations, on_delete=models.DO_NOTHING)
@@ -129,25 +132,49 @@ class Attendance(models.Model):
     subject = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING, blank=True, null=True)
     attendance_date = models.DateField(auto_now=True)
     session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE, blank=True, null=True)
+    intake = models.ForeignKey(Intakes, on_delete=models.CASCADE, blank=True, null=True)
     students = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
     staff = models.ForeignKey(Staffs, on_delete=models.DO_NOTHING, blank=True, null=True)
-    present = models.BooleanField(blank=True, null=True)
-    assignment = models.BooleanField(blank=True, null=True)
+    upload_file = models.FileField(upload_to="media/attendance", blank=True, null=True)
+    present = models.BooleanField(default=False)
+    absent = models.BooleanField(default=False)
+    medic_leave = models.BooleanField(default=False)
+    assignment = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
 
-# class AttendanceReport(models.Model):
+class AttendanceReport(models.Model):
     # Individual Student Attendance
-    # id = models.AutoField(primary_key=True)
-    # student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    # attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
-    # status = models.BooleanField(default=False)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
-    # objects = models.Manager()
+    id = models.AutoField(primary_key=True)
+    student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 
+
+class Assignment(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=300, blank=True, null=True)
+    question = models.FileField(upload_to='media/questions', blank=True, null=True)
+    lecturer = models.ForeignKey(CustomUser, default=2, on_delete=models.CASCADE, blank=True, null=True)
+    submission_date = models.CharField(max_length=40, blank=True, null=True)
+    def __str__(self):
+        return self.title
+    
+class Assignment_submit(models.Model):
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, blank=True, null=True)
+    answer = models.FileField(upload_to='media/questions/answers', blank=True, null=True)
+        
+        
+    
+    
+
+
+    
 
 
 
