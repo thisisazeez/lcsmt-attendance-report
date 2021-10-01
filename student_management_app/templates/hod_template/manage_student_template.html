@@ -66,9 +66,9 @@
                                 <th>Last Name</th>
                                 <th>Username</th>
                                 <th>Email</th>
-                                <th>Address</th>
+                                <th>Department</th>
                                 <th>Last Login</th>
-                                <th>Date Joined</th>
+                                <th>Course</th>
                                 <th>Action</th>
                                 </tr>
                             </thead>
@@ -80,9 +80,9 @@
                                 <td>{{ student.admin.last_name }}</td>
                                 <td>{{ student.admin.username }}</td>
                                 <td>{{ student.admin.email }}</td>
-                                <td>{{ student.address }}</td>
+                                <td>{{ student.department.department_name }}</td>
                                 <td>{{ student.admin.last_login }}</td>
-                                <td>{{ student.admin.date_joined }}</td>
+                                <td>{{ student.course.course_name }}</td>
                                 <td>
                                     <a href="{% url 'edit_student' student.admin.id %}" class="btn btn-success">Edit</a> 
                                     <a href="{% url 'delete_student' student.admin.id %}" class="btn btn-danger">Delete</a>
