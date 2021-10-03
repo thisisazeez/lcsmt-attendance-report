@@ -6,7 +6,7 @@ from .import HodViews, StaffViews, StudentViews
 
 urlpatterns = [
     path('', views.loginPage, name="login"),
-
+    path('sol_/', StaffViews.sol_detail_t, name="solution"),
     #  path('accounts/', include('django.contrib.auth.urls')),
     path('doLogin/', views.doLogin, name="doLogin"),
     path('get_user_details/', views.get_user_details, name="get_user_details"),
@@ -106,6 +106,11 @@ urlpatterns = [
     path('staff_profile/', StaffViews.staff_profile, name="staff_profile"),
     path('staff_profile_update/', StaffViews.staff_profile_update, name="staff_profile_update"),
     path('staff_add_result/', StaffViews.staff_add_result, name="staff_add_result"),
+    path('add_t/', StaffViews.add_t, name="add_t"),
+    # path('add_t_save/', StaffViews.add_t_save, name="saving"),
+    
+    
+    path('detail_t/', StaffViews.detail_t, name="detail_t"),
     path('staff_add_result_save/', StaffViews.staff_add_result_save, name="staff_add_result_save"),
 
     # URSL for Student
@@ -118,4 +123,6 @@ urlpatterns = [
     path('student_profile/', StudentViews.student_profile, name="student_profile"),
     path('student_profile_update/', StudentViews.student_profile_update, name="student_profile_update"),
     path('student_view_result/', StudentViews.student_view_result, name="student_view_result"),
+    path('submit/', StudentViews.submit, name="submit"),
+    path('detail/', StudentViews.detail, name="detail"),
 ]

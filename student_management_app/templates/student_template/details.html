@@ -1,0 +1,50 @@
+{% extends 'student_template/base_template.html' %} {% block title %}{{ assignment }}{% endblock %} {% block main_content %}
+
+
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card p-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Question</th>
+                        <th scope="col">Deadline</th>
+                        <th scope="col">Date:
+                            <td>{% now "D" %} {% now "M" %} {% now "Y" %}</td>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <form method="POST" action="{% url 'submit_attendance' %}">
+                        {% csrf_token %}
+                        <tr>
+                            <td>{{ assignment.name }}</td>
+                            <td>{{ assignment.questions }}</td>
+                            <td>{{ assignment.deadline }}</td>
+
+                        </tr>
+                        <!-- {% for student in students %} -->
+                        <!-- <tr>
+                            
+                            <td><input type="checkbox" name="{{student.id}}"></td>
+                            <td><input type="checkbox" name="{{student.id}}"></td>
+                            <td><input type="checkbox" name="{{student.id}}"></td>
+                        </tr> -->
+                        <!-- {% endfor %} -->
+                        <!-- <input type="text" name="department" value="{{department.id}}" hidden>
+                        <input type="text" name="intake" value="{{intake.id}}" hidden>
+                        <input type="text" name="subject" value="{{subject.id}}" hidden> -->
+                        <a href="{% url 'submit' %}"><input type="submit" href="{% url 'submit'%}" value="Submit Your Solution" class="btn btn-primary"></a>
+                        <!-- <input type="file" value="Upload Attendance" name="upload" class="btn btn-success"> -->
+                    </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+{% endblock main_content %}

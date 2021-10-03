@@ -25,12 +25,47 @@
                 <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
 
+
+
+
+
                 <li class="nav-item">
                     {% url 'staff_home' as staff_home %}
                     <a href="{{ staff_home }}" class="nav-link {% if request.path == staff_home %} active {% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Home {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'add_t' as add_t %}
+                    <a href="{{ add_t }}" class="nav-link {% if request.path == add_t %} active {% endif %}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Add Assignment {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'solution' as solution %}
+                    <a href="{{ solution }}" class="nav-link {% if request.path == solution %} active {% endif %}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            View Student Solution {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    {% url 'detail_t' as detail_t %}
+                    <a href="{{ detail_t }}" class="nav-link {% if request.path == detail_t %} active {% endif %}">
+                        <i class="nav-icon fas fa-calendar-plus"></i>
+                        <p>
+                            View Detail {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
                         </p>
                     </a>
                 </li>

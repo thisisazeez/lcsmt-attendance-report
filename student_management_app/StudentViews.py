@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.core.files.storage import FileSystemStorage #To upload Profile Picture
 from django.urls import reverse
 import datetime # To Parse input DateTime into Python Date Time Object
-
+from django.shortcuts import render, get_object_or_404
+from .forms import SolutionForm, AssignmentForm,SolCreditForm
+from .models import Assignment, Solution
 from student_management_app.models import CustomUser, Departments, Semesters, Staffs, Courses, Subjects, Students, Attendance, Registrations # AttendanceReport,  StudentResult
 
 
@@ -270,3 +272,31 @@ def student_view_result(request):
     }
     return render(request, "student_template/student_view_result.html", context)
 
+def submit(request):#, assignment_id
+    if not request.user.is_authenticated:
+        return render(request, 'login.html')
+    else:
+        assignment=Assignment.objects.all() #get(id=assignment_id)
+        # if request.method == 'POST':
+        #     # print(request.POST['title'])
+        form = SolutionForm()#user=request.user,course=assignment.course, data=request.POST
+        #     if form.is_valid():
+        #         solution = form.save(commit=False)
+        #         solution.student = Students.objects.get(user=request.user)
+        #         solution.assignment=assignment
+        #         pre_sol=Solution.objects.all() #filter(assignment__id=assignment_id,student=solution.student).
+        #         pre_sol.delete()
+        #         solution.save()
+        #         return redirect('student_home',course=assignment.course)
+        #     else:
+        form = SolutionForm()#user=request.user,course=assignment.course
+        return render(request, 'student_template/sol_submit.html', {'form': form})#user=request.user
+            
+            
+def detail(request):#, assign_id
+    if not request.user.is_authenticated:
+        return render(request, 'login.html', {'error_message': "You must be logged in!!"})
+    else:
+        user = request.user
+        assign = (Assignment)#, pk=assign_id get_object_or_404
+        return render(request, 'student_template/details.html', {'assignment': assign, 'user': user,})#'course':assign.course.name

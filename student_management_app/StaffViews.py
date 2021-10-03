@@ -1,14 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
+from django.core.urlresolvers import reverse 
 from django.core.files.storage import FileSystemStorage #To upload Profile Picture
+from django.shortcuts import render, get_object_or_404
+from .forms import SolutionForm, AssignmentForm,SolCreditForm
+from .models import Assignment, Solution
 from django.urls import reverse
+from .forms import AssignmentForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
 
-from student_management_app.models import CustomUser, Departments, Intakes, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport #StudentResult
+from student_management_app.models import CustomUser, Docs, Departments, Intakes, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport #StudentResult
 
 
 def staff_home(request):
@@ -337,3 +342,49 @@ def staff_add_result_save(request):
         except:
             messages.error(request, "Failed to Add Result!")
             return redirect('staff_add_result')
+        
+        
+def add_t(request):
+    course = Courses.objects.all()
+
+    if request.method == 'POST':
+        form = AssignmentForm(request.POST, request.FILES)
+        print ("it dosnt work from here")
+        if form.is_valid():
+            print ("it works from here too")
+            newAssi = Docs(docfile = request.FILES['docfile'])
+            newAssi.save()
+            # course=Courses.objects.get(course_name=course)
+            # print(course)
+            # ass.teacher = CustomUser.objects.get(user=request.user, user_type=2)
+            # ass.course=course
+        # ass.save()
+        return HttpResponseRedirect(reverse()) # redirect('staff_home',course=course)
+    else:
+        print("###########")
+        form = AssignmentForm()
+        return render(request, 'staff_template/add_t.html', {'form': form,'course':course})#, course=course
+            
+            
+def detail_t(request):#, assign_id
+    if not request.user.is_authenticated:
+        return render(request, 'login.html', {'error_message': "You must be logged in!!"})
+    else:
+        user = request.user
+        assign =(Assignment)#, pk=assign_id  get_object_or_404
+        sol_set=Solution.objects.all() #filter(assignment__id=assign_id)
+        return render(request, 'staff_template/details_t.html', {'assignment': assign,'sol_set':sol_set, 'user': user})#,'course':assign.course.name
+
+def sol_detail_t(request): #sol_id
+    if not request.user.is_authenticated:
+        return render(request, 'login.html', {'error_message': "You must be logged in!!"})
+    else:
+        sol= (Solution)#,pk=sol_id get_object_or_404
+        if request.method=='POST':
+            stt=request.POST['comments']
+            sol.comments=stt
+            sol.points=request.POST['points']
+            sol.save()
+            return redirect('staff_home', course=sol.assignment.course)
+        return render(request,'staff_template/sol_details_t.html',{'sol':sol})
+

@@ -1,75 +1,91 @@
 {% load static %}
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
-      <a href="{% url 'student_home' %}" class="brand-link">
-          <img src="{% static './linco.png' %}" alt="AdminLTE Logo" class="brand-image  elevation-3"
-              style="opacity: .8">
-          <span class="brand-text font-weight-light">Lincoln University</span>
-        </a>
+    <!-- Brand Logo -->
+    <a href="{% url 'student_home' %}" class="brand-link">
+        <img src="{% static './linco.png' %}" alt="AdminLTE Logo" class="brand-image  elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Lincoln University</span>
+    </a>
 
-      <!-- Sidebar -->
-      <div class="sidebar">
+    <!-- Sidebar -->
+    <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
-          </div>
-          <div class="info">
-            <a href="{% url 'student_profile' %}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
-          </div>
+            <div class="image">
+                <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="{% url 'student_profile' %}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
+            </div>
         </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
-            
-            <li class="nav-item">
-              {% url 'student_home' as student_home %}
-              <a href="{{ student_home }}" class="nav-link {% if request.path == student_home %} active {% endif %}">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  Home
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
 
-            <li class="nav-item">
-              {% url 'course_registration' as course_registration %}
-              <a href="{{ course_registration }}" class="nav-link {% if request.path == course_registration %} active {% endif %}">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>
-                  Course Registration
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+                <li class="nav-item">
+                    {% url 'student_home' as student_home %}
+                    <a href="{{ student_home }}" class="nav-link {% if request.path == student_home %} active {% endif %}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Home {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-              {% url 'manage_course_registration' as manage_course_registration %}
-              <a href="{{ manage_course_registration }}" class="nav-link {% if request.path == manage_course_registration %} active {% endif %}">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>
-                  View Course Registration
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+                <li class="nav-item">
+                    {% url 'course_registration' as course_registration %}
+                    <a href="{{ course_registration }}" class="nav-link {% if request.path == course_registration %} active {% endif %}">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            Course Registration {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-              {% url 'student_view_attendance' as student_view_attendance %}
-              <a href="{{ student_view_attendance }}" class="nav-link {% if request.path == student_view_attendance %} active {% endif %}">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>
-                  View Attendance
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+                <li class="nav-item">
+                    {% url 'manage_course_registration' as manage_course_registration %}
+                    <a href="{{ manage_course_registration }}" class="nav-link {% if request.path == manage_course_registration %} active {% endif %}">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            View Course Registration {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
 
-            <!-- <li class="nav-item">
+                <li class="nav-item">
+                    {% url 'student_view_attendance' as student_view_attendance %}
+                    <a href="{{ student_view_attendance }}" class="nav-link {% if request.path == student_view_attendance %} active {% endif %}">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            View Attendance {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    {% url 'submit' as submit %}
+                    <a href="{{ submit }}" class="nav-link {% if request.path == submit %} active {% endif %}">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            Submit Assignment {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'detail' as detail %}
+                    <a href="{{ detail }}" class="nav-link {% if request.path == detail %} active {% endif %}">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            View Assignment {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                        </p>
+                    </a>
+                </li>
+
+                <!-- <li class="nav-item">
               {% url 'student_view_result' as student_view_result %}
               <a href="{{ student_view_result }}" class="nav-link {% if request.path == student_view_result %} active {% endif %}">
                 <i class="nav-icon fas fa-tasks"></i>
@@ -79,9 +95,9 @@
                 </p>
               </a>
             </li> -->
-          </ul>
+            </ul>
         </nav>
         <!-- /.sidebar-menu -->
-      </div>
-      <!-- /.sidebar -->
-    </aside>
+    </div>
+    <!-- /.sidebar -->
+</aside>

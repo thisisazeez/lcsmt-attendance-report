@@ -1,6 +1,43 @@
-# from django import forms 
-# from django.forms import Form
-# from .models import Courses, SessionYearModel
+from django import forms 
+from django.forms import Form
+from .models import Assignment, Solution, Students
+
+
+
+
+
+
+class SolutionForm(forms.ModelForm):
+    class Meta:
+        model = Solution
+        fields = ['title','answer']
+
+	# def __init__(self, *args, **kwargs):
+        
+	# 	user = kwargs.pop('user')
+	# 	usr_year = Students.objects.get(user=user).id
+	# 	course=kwargs.pop('course')
+		# print("##############" + str(usr_year))
+		# usr_assign = Assignment.objects.filter(year=usr_year)
+		# super(SolutionForm, self).__init__(*args, **kwargs)
+		#self.fields['assignment'].queryset = Assignment.objects.filter(year=usr_year,course__name=course)
+
+
+class AssignmentForm(forms.ModelForm):
+    docfile = forms.FileField(
+		label='select a file',
+		help_text='max. 42 megabytes'
+	)
+	# class Meta:
+	# 	model=Assignment
+	# 	fields=['num','name','questions','deadline']
+
+class SolCreditForm(forms.ModelForm):
+	class Meta:
+		model=Solution
+		fields=['points','comments']
+
+
 
 
 # class DateInput(forms.DateInput):
