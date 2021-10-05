@@ -350,10 +350,12 @@ def add_t(request):
 
     if request.method == 'POST':
         form = AssignmentForm(request.POST, request.FILES)
+        name  =  request.POST.get("name")
         print ("it dosnt work from here")
         if form.is_valid():
             print ("it works from here too")
-            newAssi = Docs(docfile = request.FILES['docfile'])
+            newAssi = Docs(docfile = request.FILES['docfile'], doc_name=name )
+            
             newAssi.save()
             # course=Courses.objects.get(course_name=course)
             # print(course)
@@ -361,12 +363,12 @@ def add_t(request):
             # ass.course=course
         # ass.save()
         return HttpResponseRedirect('/staff_home')
-    else:
+    else:   
         # print("###########")
         form = AssignmentForm()
     
     docs = Docs.objects.all()
-    return render(request, 'staff_template/add_t.html', {'form': form})# context_instance=RequestContext(request))#, course=course
+    return render(request, 'staff_template/add_t.html', {'form': form, 'docs':docs})# context_instance=RequestContext(request))#, course=course
             
 def detail_t(request):#, assign_id
     if not request.user.is_authenticated:

@@ -12,21 +12,30 @@
                         <th scope="col">Name</th>
                         <th scope="col">Question</th>
                         <th scope="col">Deadline</th>
-                        <th scope="col">Date:
-                            <td>{% now "D" %} {% now "M" %} {% now "Y" %}</td>
-                        </th>
+                            <!-- <th scope="col">Date:
+                                <td>{% now "D" %} {% now "M" %} {% now "Y" %}</td>
+                            </th> -->
+                        <th scope="col">Status</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <form method="POST" action="{% url 'submit_attendance' %}">
                         {% csrf_token %}
+                        {% for assignment in assignments %}
                         <tr>
-                            <td>{{ assignment.name }}</td>
-                            <td>{{ assignment.questions }}</td>
-                            <td>{{ assignment.deadline }}</td>
+                            
+                            
+                                <td>{{ assignment.doc_name }}</td>
+                                <td>{{ assignment.docfile.name }}</td>
+                                <td>{{ assignment.deadline }}</td>
+                                <td>  <a href="{{assignment.docfile.url}}"> <input type="button" value="view" class="btn btn-primary"> </a> </td>
+                        
+                                
+                           
 
                         </tr>
+                        {% endfor %}
                         <!-- {% for student in students %} -->
                         <!-- <tr>
                             

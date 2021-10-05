@@ -7,7 +7,7 @@ import datetime # To Parse input DateTime into Python Date Time Object
 from django.shortcuts import render, get_object_or_404
 from .forms import SolutionForm, AssignmentForm,SolCreditForm
 from .models import Assignment, Solution
-from student_management_app.models import CustomUser, Departments, Semesters, Staffs, Courses, Subjects, Students, Attendance, Registrations # AttendanceReport,  StudentResult
+from student_management_app.models import CustomUser,Docs, Departments, Semesters, Staffs, Courses, Subjects, Students, Attendance, Registrations # AttendanceReport,  StudentResult
 
 
 def student_home(request):
@@ -298,5 +298,30 @@ def detail(request):#, assign_id
         return render(request, 'login.html', {'error_message': "You must be logged in!!"})
     else:
         user = request.user
-        assign = (Assignment)#, pk=assign_id get_object_or_404
-        return render(request, 'student_template/details.html', {'assignment': assign, 'user': user,})#'course':assign.course.name
+        assign = Docs.objects.all()#, pk=assign_id get_object_or_404
+        return render(request, 'student_template/details.html', {'assignments': assign, 'user': user,})#'course':assign.course.name
+
+        
+
+def add_t(request):
+    course = Courses.objects.all()
+
+    if request.method == 'POST':
+        form = AssignmentForm(request.POST, request.FILES)
+        print ("it dosnt work from here")
+        if form.is_valid():
+            print ("it works from here too")
+            newAssi = Docs(docfile = request.FILES['docfile'])
+            newAssi.save()
+            # course=Courses.objects.get(course_name=course)
+            # print(course)
+            # ass.teacher = CustomUser.objects.get(user=request.user, user_type=2)
+            # ass.course=course
+        # ass.save()
+        return HttpResponseRedirect('/staff_home')
+    else:
+        # print("###########")
+        form = AssignmentForm()
+    
+    docs = Docs.objects.all()
+    return render(request, 'staff_template/add_t.html', {'form': form, 'docs':docs})

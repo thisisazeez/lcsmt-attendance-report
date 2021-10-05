@@ -158,7 +158,10 @@ class AttendanceReport(models.Model):
     objects = models.Manager()
 
 class Docs(models.Model):
-    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
+    id = models.AutoField(primary_key=True)
+    doc_name = models.CharField( max_length=150)
+    docfile = models.FileField(upload_to='%Y/%m/%d')
+
 class Assignment(models.Model):
     name = models.CharField(max_length = 200, blank=True, null=True)
     id = models.AutoField(primary_key=True)
