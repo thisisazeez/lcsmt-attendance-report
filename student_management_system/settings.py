@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'attendance',
     'crispy_forms',
     # Django PWA is here
-    'pwa',
+    # 'pwa',
 ]
 
 MIDDLEWARE = [

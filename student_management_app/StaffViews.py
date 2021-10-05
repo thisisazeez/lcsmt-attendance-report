@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
-from django.core.urlresolvers import reverse 
+from django.template import RequestContext
+# from django.core.urlresolvers import reverse 
 from django.core.files.storage import FileSystemStorage #To upload Profile Picture
 from django.shortcuts import render, get_object_or_404
 from .forms import SolutionForm, AssignmentForm,SolCreditForm
@@ -359,12 +360,13 @@ def add_t(request):
             # ass.teacher = CustomUser.objects.get(user=request.user, user_type=2)
             # ass.course=course
         # ass.save()
-        return HttpResponseRedirect(reverse()) # redirect('staff_home',course=course)
+        return HttpResponseRedirect('/staff_home')
     else:
-        print("###########")
+        # print("###########")
         form = AssignmentForm()
-        return render(request, 'staff_template/add_t.html', {'form': form,'course':course})#, course=course
-            
+    
+    docs = Docs.objects.all()
+    return render(request, 'staff_template/add_t.html', {'form': form})# context_instance=RequestContext(request))#, course=course
             
 def detail_t(request):#, assign_id
     if not request.user.is_authenticated:

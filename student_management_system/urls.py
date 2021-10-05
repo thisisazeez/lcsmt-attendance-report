@@ -8,5 +8,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('student_management_app.urls')),
     path('', include('attendance.urls')),
-    path('', include('pwa.urls')),
+    # path('', include('pwa.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

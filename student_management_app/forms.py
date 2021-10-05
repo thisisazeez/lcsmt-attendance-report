@@ -23,7 +23,8 @@ class SolutionForm(forms.ModelForm):
 		#self.fields['assignment'].queryset = Assignment.objects.filter(year=usr_year,course__name=course)
 
 
-class AssignmentForm(forms.ModelForm):
+class AssignmentForm(Form):
+	
     docfile = forms.FileField(
 		label='select a file',
 		help_text='max. 42 megabytes'
