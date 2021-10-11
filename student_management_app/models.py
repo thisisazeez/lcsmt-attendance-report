@@ -164,7 +164,6 @@ class Docs(models.Model):
 
 class Assignment(models.Model):
     name = models.CharField(max_length = 200, blank=True, null=True)
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=300, blank=True, null=True)
     question = models.FileField(upload_to='media/questions', blank=True, null=True)
     lecturer = models.ForeignKey(CustomUser, default=2, on_delete=models.CASCADE, blank=True, null=True)
@@ -183,11 +182,12 @@ class Assignment(models.Model):
         super(Assignment, self).save()
     
 class Solution(models.Model):
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    student = models.ForeignKey(Students, on_delete=models.CASCADE, null=True, blank=True)
+    id = models.AutoField(primary_key=True)
+    assignment = models.ForeignKey(Docs, on_delete=models.CASCADE)
+    # student = models.ForeignKey(Students, on_delete=models.CASCADE, null=True, blank=True)
     submission_date = models.DateField()
     title=models.CharField(max_length=100,default="")
-    answer=models.FileField(upload_to='media/questions/answers',default="")
+    answer=models.FileField(upload_to='%Y/%M/%d')
     points=models.FloatField(default=0.)
     comments=models.CharField(max_length=200,default="")
     worked=models.BooleanField(default=False)

@@ -32,7 +32,12 @@ class AssignmentForm(Form):
 	# class Meta:
 	# 	model=Assignment
 	# 	fields=['num','name','questions','deadline']
-
+class AssignmentAnwserForm(Form):
+	
+    anwser = forms.FileField(
+		label='uploasd your anwser',
+		help_text='max. 42 megabytes'
+	)
 class SolCreditForm(forms.ModelForm):
 	class Meta:
 		model=Solution

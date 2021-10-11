@@ -18,10 +18,16 @@
                         <!-- <br> Simulate : <button href=" ">Simulate</button> -->
                         <br>
                         <!-- <br> MathType: <button href=" ">MathType</button> -->
-                        <br>
+                        
+                        <p>{{form.non_field_errors}}</p>
+                        <p>{{form.anwser.label_tag}} {{form.anwser.help_text}} </p>
+                        <p>
+                            {{form.anwser.errors}}
+                            {{form.anwser}}
+                        </p>
                         <br> Description:
                         <br>
-                        <textarea name="body" rows="10" cols="50" type="text" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
+                        <textarea name="body"  maxlength="200" type="text" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
 
                         </textarea>
                         <br>

@@ -5,7 +5,7 @@ from django.core.files.storage import FileSystemStorage #To upload Profile Pictu
 from django.urls import reverse
 import datetime # To Parse input DateTime into Python Date Time Object
 from django.shortcuts import render, get_object_or_404
-from .forms import SolutionForm, AssignmentForm,SolCreditForm
+from .forms import AssignmentAnwserForm, AssignmentForm,SolCreditForm
 from .models import Assignment, Solution
 from student_management_app.models import CustomUser,Docs, Departments, Semesters, Staffs, Courses, Subjects, Students, Attendance, Registrations # AttendanceReport,  StudentResult
 
@@ -273,13 +273,22 @@ def student_view_result(request):
     return render(request, "student_template/student_view_result.html", context)
 
 def submit(request):#, assignment_id
-    if not request.user.is_authenticated:
-        return render(request, 'login.html')
+    
+    if request.method == 'POST':
+        form = AssignmentAnwserForm(request.POST, request.FILES)
+        print ("it dosnt work from here")
+        if form.is_valid():
+            print ("it works from here too")
+            newAns = Solution(answer = request.FILES['anwser'])
+            newAns.save()
+            print("It is ok here too")
+
+            return HttpResponseRedirect('/submit')
     else:
-        assignment=Assignment.objects.all() #get(id=assignment_id)
+        # assignment=Assignment.objects.all() #get(id=assignment_id)
         # if request.method == 'POST':
         #     # print(request.POST['title'])
-        form = SolutionForm()#user=request.user,course=assignment.course, data=request.POST
+        form = AssignmentAnwserForm()#user=request.user,course=assignment.course, data=request.POST
         #     if form.is_valid():
         #         solution = form.save(commit=False)
         #         solution.student = Students.objects.get(user=request.user)
@@ -289,7 +298,7 @@ def submit(request):#, assignment_id
         #         solution.save()
         #         return redirect('student_home',course=assignment.course)
         #     else:
-        form = SolutionForm()#user=request.user,course=assignment.course
+        # form = AssignmentAnwserForm()#user=request.user,course=assignment.course
         return render(request, 'student_template/sol_submit.html', {'form': form})#user=request.user
             
             
