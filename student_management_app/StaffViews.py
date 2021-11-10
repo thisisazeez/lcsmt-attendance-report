@@ -383,12 +383,13 @@ def sol_detail_t(request): #sol_id
     if not request.user.is_authenticated:
         return render(request, 'login.html', {'error_message': "You must be logged in!!"})
     else:
-        sol= (Solution)#,pk=sol_id get_object_or_404
-        if request.method=='POST':
-            stt=request.POST['comments']
-            sol.comments=stt
-            sol.points=request.POST['points']
-            sol.save()
-            return redirect('staff_home', course=sol.assignment.course)
-        return render(request,'staff_template/sol_details_t.html',{'sol':sol})
+        ass = Solution.objects.all()
+        sol= (Solution.objects.all())
+        # if request.method=='POST':
+        #     stt=request.POST['comments']
+        #     sol.comments=stt
+        #     sol.points=request.POST['points']
+        #     sol.save()
+        #     return redirect('staff_home', course=sol.assignment.course), 'sol':sol,
+        return render(request,'staff_template/sol_details_t.html',{'ass':ass})
 

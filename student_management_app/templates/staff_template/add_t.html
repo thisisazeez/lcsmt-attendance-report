@@ -34,7 +34,7 @@
                                     {{form.docfile.errors}}
                                     {{form.docfile}}
                                 </p>
-                                <p> <input type="text" name="name" value="Assignment"> </p>
+                                <p> <input type="text" name="name" value="{{ user.first_name }} {{ user.last_name }}"> </p>
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </div>
                         </div>

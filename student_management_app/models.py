@@ -183,7 +183,7 @@ class Assignment(models.Model):
     
 class Solution(models.Model):
     id = models.AutoField(primary_key=True)
-    assignment = models.ForeignKey(Docs, on_delete=models.CASCADE)
+    assignment_id = models.ForeignKey(Docs, on_delete=models.CASCADE, blank=True, null=True)
     # student = models.ForeignKey(Students, on_delete=models.CASCADE, null=True, blank=True)
     submission_date = models.DateField()
     title=models.CharField(max_length=100,default="")

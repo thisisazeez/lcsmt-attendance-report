@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <form method="POST" action="{% url 'submit_attendance' %}">
+                    <form method="POST" action="{% url 'submit' %}">
                         {% csrf_token %}
                         {% for assignment in assignments %}
                         <tr>
@@ -29,7 +29,7 @@
                                 <td>{{ assignment.doc_name }}</td>
                                 <td>{{ assignment.docfile.name }}</td>
                                 <td>{{ assignment.deadline }}</td>
-                                <td>  <a href="{{assignment.docfile.url}}"> <input type="button" value="view" class="btn btn-primary"> </a> </td>
+                                <td>  <a href="{{assignment.docfile.url}}" download> <input type="button" value="download" class="btn btn-primary"> </a> </td>
                         
                                 
                            

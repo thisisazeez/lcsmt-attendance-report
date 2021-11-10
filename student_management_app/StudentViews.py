@@ -271,7 +271,7 @@ def student_view_result(request):
         "student_result": student_result,
     }
     return render(request, "student_template/student_view_result.html", context)
-
+ 
 def submit(request):#, assignment_id
     
     if request.method == 'POST':

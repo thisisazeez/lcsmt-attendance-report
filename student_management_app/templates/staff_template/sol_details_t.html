@@ -1,7 +1,7 @@
-{% extends 'staff_template/base_template.html' %} {% block title %}{{ sol.tiitle }}{% endblock %} {% block main_content %}
+{% extends 'staff_template/base_template.html' %} {% block title %}Assignment{% endblock %} {% block main_content %}
 <div class="container">
     <div class="row">
-
+<!-- {{ sol.tiitle }}
         <h3>{{ sol.title }}</h3>
         <br>
         <div>
@@ -13,7 +13,7 @@
         <div><b>Comments:</b> {{ sol.comments }}</div>
         <br>
         <div><b>Ansered by {{ admin.student.username }}</b></div>
-        <br>
+        <br> -->
     </div>
 </div>
 
@@ -23,8 +23,10 @@
         <div class="col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-
-                    {% if error_message %}
+                    {% for a in ass %}
+                    <div><b>By:</b> {{ a.title }}</div>
+                    {% endfor %}
+                    <!-- {% if error_message %}
                     <div class="alert alert-danger">
                         <strong>{{ error_message }}</strong>
                     </div>
@@ -56,7 +58,7 @@
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
                 </div>
 
             </div>
