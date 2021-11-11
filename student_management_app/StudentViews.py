@@ -272,23 +272,51 @@ def student_view_result(request):
     }
     return render(request, "student_template/student_view_result.html", context)
  
-def submit(request):#, assignment_id
-    
+def submit(request):
+    course = Courses.objects.all()
+
     if request.method == 'POST':
         form = AssignmentAnwserForm(request.POST, request.FILES)
+        name  =  request.POST.get("name")
         print ("it dosnt work from here")
         if form.is_valid():
             print ("it works from here too")
-            newAns = Solution(answer = request.FILES['anwser'])
-            newAns.save()
-            print("It is ok here too")
+            newAssi = Solution(docfiles = request.FILES['docfiles'], doc_name=name)
+            
+            newAssi.save()
+            # course=Courses.objects.get(course_name=course)
+            # print(course)
+            # ass.teacher = CustomUser.objects.get(user=request.user, user_type=2)
+            # ass.course=course
+        # ass.save()
+        return HttpResponseRedirect('/student_home')
+    else:   
+        print("###########")
+        form = AssignmentAnwserForm()
+    
+    docs = Solution.objects.all()
+    return render(request, 'student_template/sol_submit.html', {'form': form, 'docs':docs})
 
-            return HttpResponseRedirect('/submit')
-    else:
-        # assignment=Assignment.objects.all() #get(id=assignment_id)
-        # if request.method == 'POST':
-        #     # print(request.POST['title'])
-        form = AssignmentAnwserForm()#user=request.user,course=assignment.course, data=request.POST
+# def submit(request):#, assignment_id
+    
+#     if request.method == 'POST':
+#         form = AssignmentAnwserForm(request.POST, request.FILES)
+#         print("it dosnt work from here")
+#         if form.is_valid():
+#             print("it works from here too")
+#             newAns = Solution(answer = request.FILES['anwser'])
+#             newAns.save()
+#             print("It is ok here too")
+#             return HttpResponseRedirect('/submit')
+#     else:
+#         # assignment=Assignment.objects.all() #get(id=assignment_id)
+#         # if request.method == 'POST':
+#         #     # print(request.POST['title'])
+#         form = AssignmentAnwserForm()#user=request.user,course=assignment.course, data=request.POST
+
+
+#         return render(request, 'student_template/sol_submit.html', {'form': form})#user=request.user
+
         #     if form.is_valid():
         #         solution = form.save(commit=False)
         #         solution.student = Students.objects.get(user=request.user)
@@ -299,7 +327,6 @@ def submit(request):#, assignment_id
         #         return redirect('student_home',course=assignment.course)
         #     else:
         # form = AssignmentAnwserForm()#user=request.user,course=assignment.course
-        return render(request, 'student_template/sol_submit.html', {'form': form})#user=request.user
             
             
 def detail(request):#, assign_id

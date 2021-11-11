@@ -10,7 +10,7 @@ from .models import Assignment, Solution, Students
 class SolutionForm(forms.ModelForm):
     class Meta:
         model = Solution
-        fields = ['title','answer']
+        fields = ['doc_name','docfiles']
 
 	# def __init__(self, *args, **kwargs):
         
