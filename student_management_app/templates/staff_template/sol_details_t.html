@@ -1,5 +1,5 @@
 {% extends 'staff_template/base_template.html' %} {% block title %}Assignment{% endblock %} {% block main_content %}
-<div class="container">
+{% comment %} <div class="container">
     <div class="row">
 <!-- {{ sol.tiitle }}
         <h3>{{ sol.title }}</h3>
@@ -65,5 +65,42 @@
         </div>
     </div>
 
-</div>
+</div> {% endcomment %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card p-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <form method="POST" action="{% url 'add_t' %}">
+                        {% csrf_token %}
+                        {% for assignment in ass %}
+                        <tr>
+                            
+                            
+                                <td>{{ assignment.doc_name }}</td>
+                                <td>{{ assignment.body }}</td>
+                                <td>  <a href="{{assignment.docfiles}}" download> <input type="button" value="download" class="btn btn-primary"> </a> </td>
+                        
+                                
+                           
+
+                        </tr>
+                        {% endfor %}
+                        <a href="{% url 'add_t' %}"><input type="submit" href="{% url 'add_t'%}" value="Add Another Assignment" class="btn btn-primary"></a>
+                    </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
 {% endblock main_content %}

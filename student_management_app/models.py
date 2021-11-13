@@ -14,7 +14,7 @@ class SessionYearModel(models.Model):
 
 # Overriding the Default Django Auth User and adding One More Field (user_type)
 class CustomUser(AbstractUser):
-    user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student"))
+    user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student"), (4, "Parent"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
     parent_password = models.CharField(max_length=900, default=3)
 
@@ -55,6 +55,18 @@ class Staffs(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
+
+class Parents(models.Model):
+    id = models.AutoField(primary_key=True)
+    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
+    # student = models.ForeignKey(Students, on_delete=models.CASCADE, blank=True, null=True)
+    # student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=3)
+    address = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
+
 
 class Semesters(models.Model):
     id = models.AutoField(primary_key=True)
@@ -188,6 +200,7 @@ class Solution(models.Model):
     submission_date = models.DateField()
     doc_name = models.CharField( max_length=150, blank=True, null=True)
     docfiles = models.FileField(upload_to='%Y/%m/%d', blank=True, null=True)
+    body = models.CharField(max_length=255, blank=True, null=True)
     points=models.FloatField(default=0.)
     comments=models.CharField(max_length=200,default="")
     worked=models.BooleanField(default=False)

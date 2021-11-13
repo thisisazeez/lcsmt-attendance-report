@@ -278,10 +278,11 @@ def submit(request):
     if request.method == 'POST':
         form = AssignmentAnwserForm(request.POST, request.FILES)
         name  =  request.POST.get("name")
+        body = request.POST.get('body')
         print ("it dosnt work from here")
         if form.is_valid():
             print ("it works from here too")
-            newAssi = Solution(docfiles = request.FILES['docfiles'], doc_name=name)
+            newAssi = Solution(docfiles = request.FILES['docfiles'], doc_name=name, body=body)
             
             newAssi.save()
             # course=Courses.objects.get(course_name=course)
@@ -293,9 +294,9 @@ def submit(request):
     else:   
         print("###########")
         form = AssignmentAnwserForm()
-    
+    ass = Docs.objects.all()
     docs = Solution.objects.all()
-    return render(request, 'student_template/sol_submit.html', {'form': form, 'docs':docs})
+    return render(request, 'student_template/sol_submit.html', {'form': form, 'docs':docs, 'ass':ass})
 
 # def submit(request):#, assignment_id
     

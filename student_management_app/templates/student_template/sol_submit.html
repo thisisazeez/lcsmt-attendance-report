@@ -1,6 +1,89 @@
 {% extends 'student_template/base_template.html' %} {% block main_content %}
 
-<div class="container">
+
+
+
+
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card p-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Body</th>
+                        <th scope="col">Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <form method="POST" action="{% url 'submit' %}">
+                        {% csrf_token %}
+                        {% for doc in docs %}
+                        <tr>
+
+
+                            <td>{{ doc.doc_name }}</td>
+                            <td>{{ doc.body }}</td>
+                            <td> <a href="{{doc.docfiles}}" download> <input type="button" value="download"
+                                        class="btn btn-primary"> </a> </td>
+
+
+
+
+                        </tr>
+                        {% endfor %}
+                        <a href="{% url 'submit' %}"><input type="submit" href="{% url 'submit'%}"
+                                value="Submit Your Solution" class="btn btn-primary"></a>
+                        <hr>
+                    </form>
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %} Name:
+                        <hr>
+                        <input name="name" maxlength="200" type="text" onpaste="return false"
+                            oncontextmenu="return false" oncopy="return false" oncut="return false" />
+
+                        <p>{{form.non_field_errors}}</p>
+                        <hr>
+                        <p>{{form.docfiles.label_tag}} {{form.docfiles.help_text}} </p>
+                        <p>
+                            <hr>
+                            {{form.docfiles.errors}}
+                            {{form.docfiles}}
+                        </p>
+                        <hr>
+                        <br> Description:
+                        <hr>
+                        <textarea name="body" maxlength="200" type="text" onpaste="return false"
+                            oncontextmenu="return false" oncopy="return false" oncut="return false">
+
+                        </textarea>
+                        <br>
+                        <div class="form-group">
+                            <label>Assignment </label>
+                            <select class="form-control" name="assignment" placeholder="Choose assignment">
+                                {% for assignment in ass %}
+                                <option value="{{ assignment.id }}">{{ assignment.doc_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+
+{% comment %} <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <div class="panel panel-default">
@@ -11,36 +94,21 @@
                         <strong>{{ error_message }}</strong>
                     </div>
                     {% endif %}
-                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %} Title:
-                        <input name="name" maxlength="200" type="text" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" />
-                        <br>
-                        <!-- <br> Simulate : <button href=" ">Simulate</button> -->
-                        <br>
-                        <!-- <br> MathType: <button href=" ">MathType</button> -->
-                        
-                        <p>{{form.non_field_errors}}</p>
-                        <p>{{form.anwser.label_tag}} {{form.anwser.help_text}} </p>
-                        <p>
-                            {{form.anwser.errors}}
-                            {{form.anwser}}
-                        </p> 
-                        <br> Description:
-                        <br>
-                        <textarea name="body"  maxlength="200" type="text" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
 
-                        </textarea>
-                        <br>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div>
-                    </form>
+
+                    <ul>
+                        {% for doc in docs %}
+                        <li>{{doc.doc_name}}</li>
+                        <li>{{doc.body}}</li>
+                        <li>{{doc.docfiles}}</li>
+                        {% endfor %}
+
+                    </ul>
+
                 </div>
 
             </div>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 {% endblock main_content %}

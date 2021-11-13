@@ -1,7 +1,8 @@
 
 from django.urls import path, include
+
 from . import views
-from .import HodViews, StaffViews, StudentViews
+from .import HodViews, StaffViews, StudentViews, ParentViews
 
 
 urlpatterns = [
@@ -125,4 +126,8 @@ urlpatterns = [
     path('student_view_result/', StudentViews.student_view_result, name="student_view_result"),
     path('submit/', StudentViews.submit, name="submit"),
     path('detail/', StudentViews.detail, name="detail"),
+
+
+    # Urls for Parent 
+    path('parent_home/', ParentViews.parent_home, name="parent_home"),
 ]

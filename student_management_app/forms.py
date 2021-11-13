@@ -34,7 +34,7 @@ class AssignmentForm(Form):
 	# 	fields=['num','name','questions','deadline']
 class AssignmentAnwserForm(Form):
 	
-    anwser = forms.FileField(
+    docfiles = forms.FileField(
 		label='uploasd your anwser',
 		help_text='max. 42 megabytes'
 	)

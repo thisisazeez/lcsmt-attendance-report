@@ -1,48 +1,72 @@
- {% extends 'staff_template/base_template.html' %} {% load crispy_forms_tags %}{% block main_content %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3>Add an Assignment</h3>
-                    {% if error_message %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error_message }}</strong>
-                    </div>
-                    {% endif %}
-                    
-                    
-                    {% if docs %}
-                        <ul>
-                            
-                            {% for docu in docs %}
-                                <li><a href="{{docu.docfile.url}}">{{docu.doc_name}}  </a></li>
-                            {% endfor %}
-                                
-                        </ul>
-                        
-                    {% endif %}
-                        
-                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %} 
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                
-                                <p>{{form.non_field_errors}}</p>
-                                <p>{{form.docfile.label_tag}} {{form.docfile.help_text}} </p>
-                                <p>
-                                    {{form.docfile.errors}}
-                                    {{form.docfile}}
-                                </p>
-                                <p> <input type="text" name="name" value="{{ user.first_name }} {{ user.last_name }}"> </p>
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
+{% extends 'staff_template/base_template.html' %} {% load crispy_forms_tags %}{% block main_content %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h3>Add an Assignment</h3>
+        {% if error_message %}
+        <div class="alert alert-danger">
+            <strong>{{ error_message }}</strong>
         </div>
+        {% endif %}
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card p-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Question</th>
+                                <th scope="col">Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form method="POST" action="{% url 'add_t' %}">
+                                {% csrf_token %}
+                                {% if docs %}
+                                {% for docu in docs %}
+                                <tr>
+
+
+                                    <td>{{ docu.doc_name }}</td>
+                                    <td>{{ docu.docfile.name }}</td>
+                                    <td>{{ docu.deadline }}</td>
+                                    <td> <a href="{{docu.docfile.url}}" download> <input type="button" value="download"
+                                                class="btn btn-primary"> </a> </td>
+
+
+
+
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </form>
+                            <form class="form-horizontal" role="form" action="" method="post"
+                                enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+
+                                        <p>{{form.non_field_errors}}</p>
+                                        <p>{{form.docfile.label_tag}} {{form.docfile.help_text}} </p>
+                                        <p>
+                                            {{form.docfile.errors}}
+                                            {{form.docfile}}
+                                        </p>
+                                        <p> <input type="text" name="name"
+                                                value="{{ user.first_name }} {{ user.last_name }}"> </p>
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr><br><hr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
     </div>
+
 </div>
 {% endblock main_content %}

@@ -354,7 +354,7 @@ def add_t(request):
         print ("it dosnt work from here")
         if form.is_valid():
             print ("it works from here too")
-            newAssi = Docs(docfile = request.FILES['docfile'], doc_name=name )
+            newAssi = Docs(docfile = request.FILES['docfile'], doc_name=name)
             
             newAssi.save()
             # course=Courses.objects.get(course_name=course)
