@@ -14,7 +14,13 @@ urlpatterns = [
     path('logout_user/', views.logout_user, name="logout_user"),
     path('admin_home/', HodViews.admin_home, name="admin_home"),
 
-    # admin staff
+    # admin parent
+
+    path('add_parent/', HodViews.add_parent, name="add_parent"),
+    path('add_parent_save/', HodViews.add_parent_save, name="add_parent_save"),
+
+
+    # Admin Staff
     path('add_staff/', HodViews.add_staff, name="add_staff"),
     path('add_staff_save/', HodViews.add_staff_save, name="add_staff_save"),
     path('manage_staff/', HodViews.manage_staff, name="manage_staff"),
