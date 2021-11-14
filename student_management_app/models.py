@@ -56,18 +56,6 @@ class Staffs(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-class Parents(models.Model):
-    id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
-    # student = models.ForeignKey(Students, on_delete=models.CASCADE, blank=True, null=True)
-    # student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=3)
-    address = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
-
-
-
 class Semesters(models.Model):
     id = models.AutoField(primary_key=True)
     semester_name = models.CharField(max_length=255)
@@ -139,6 +127,19 @@ class Registrations(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
+
+
+class Parents(models.Model):
+    id = models.AutoField(primary_key=True)
+    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
+    # student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
+    student = models.ForeignKey(Students, on_delete=models.CASCADE, blank=True, null=True)
+    # student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=3)
+    address = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
