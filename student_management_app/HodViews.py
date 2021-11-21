@@ -191,13 +191,14 @@ def add_parent_save(request):
         address = request.POST.get('address')
 
         try:
-            print("###@@@##@#@#@#!@#$#$it works from here")
+            print("it doesnt work in the try block")
             user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=4)
             user.parents.address = address
             user.save()
-            messages.success(request, "Staff Added Successfully!")
+            messages.success(request, "Parent Added Successfully!")
             return redirect('add_parent')
         except:
+            print("it runs perfectly but comes to execpt instead of stoppig in the try")
             messages.error(request, "Failed to Add Parent!")
             return redirect('add_parent')
 
