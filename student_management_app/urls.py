@@ -2,7 +2,7 @@
 from django.urls import path, include
 
 from . import views
-from .import HodViews, StaffViews, StudentViews, ParentViews
+from .import HodViews, StaffViews, StudentViews #, ParentViews
 
 
 urlpatterns = [
@@ -16,8 +16,8 @@ urlpatterns = [
 
     # admin parent
 
-    path('add_parent/', HodViews.add_parent, name="add_parent"),
-    path('add_parent_save/', HodViews.add_parent_save, name="add_parent_save"),
+    # path('add_parent/', HodViews.add_parent, name="add_parent"),
+    # path('add_parent_save/', HodViews.add_parent_save, name="add_parent_save"),
 
 
     # Admin Staff
@@ -135,5 +135,5 @@ urlpatterns = [
 
 
     # Urls for Parent 
-    path('parent_home/', ParentViews.parent_home, name="parent_home"),
+    # path('parent_home/', ParentViews.parent_home, name="parent_home"),
 ]

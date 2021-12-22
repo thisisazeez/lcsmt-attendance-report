@@ -14,9 +14,9 @@ class SessionYearModel(models.Model):
 
 # Overriding the Default Django Auth User and adding One More Field (user_type)
 class CustomUser(AbstractUser):
-    user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student"), (4, "Parent"))
+    user_type_data = ((1, "HOD"), (2, "Staff"), (3, "Student")) # ,(4, "Parent")
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
-    parent_password = models.CharField(max_length=900, default=3)
+    # parent_password = models.CharField(max_length=900, default=3)
 
 class AdminHOD(models.Model):
     id = models.AutoField(primary_key=True)
@@ -101,7 +101,7 @@ class Students(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
     gender = models.CharField(max_length=50)
-    parent_password = models.CharField(max_length=900, blank=True, null=True)
+    # parent_password = models.CharField(max_length=900, blank=True, null=True)
     # profile_pic = models.FileField()
     intake = models.ForeignKey(Intakes, on_delete=models.DO_NOTHING,blank=True, null=True)
     department = models.ForeignKey(Departments,on_delete=models.CASCADE, blank=True, null=True)
@@ -129,16 +129,16 @@ class Registrations(models.Model):
     objects = models.Manager()
 
 
-class Parents(models.Model):
-    id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
-    # student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
-    student = models.ForeignKey(Students, on_delete=models.CASCADE, blank=True, null=True)
-    # student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=3)
-    address = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
+# class Parents(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE, blank=True, null=True)
+#     # student = models.ForeignKey(Students, on_delete=models.DO_NOTHING, blank=True, null=True)
+#     student = models.ForeignKey(Students, on_delete=models.CASCADE, blank=True, null=True)
+#     # student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=3)
+#     address = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     objects = models.Manager()
 
 
 class Attendance(models.Model):

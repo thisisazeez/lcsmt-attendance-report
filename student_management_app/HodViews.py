@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-
-from student_management_app.models import CustomUser, Parents, Staffs, Departments, Courses, Subjects, Students, Intakes, Semesters, SessionYearModel, Attendance # AttendanceReport
+#Parents,
+from student_management_app.models import CustomUser,  Staffs, Departments, Courses, Subjects, Students, Intakes, Semesters, SessionYearModel, Attendance # AttendanceReport
 # from .forms import AddStudentForm, EditStudentForm
 
 
@@ -175,93 +175,93 @@ def delete_staff(request, staff_id):
 
 ##### Parent 
 
-def add_parent(request):
-    return render(request, "hod_template/add_parent_template.html")
+# def add_parent(request):
+#     return render(request, "hod_template/add_parent_template.html")
 
-def add_parent_save(request):
-    if request.method != "POST":
-        messages.error(request, "Invalid Method!")
-        return redirect('add_parent')
-    else:
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = "lincolparent12345"
-        address = request.POST.get('address')
+# def add_parent_save(request):
+#     if request.method != "POST":
+#         messages.error(request, "Invalid Method!")
+#         return redirect('add_parent')
+#     else:
+#         first_name = request.POST.get('first_name')
+#         last_name = request.POST.get('last_name')
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = "lincolparent12345"
+#         address = request.POST.get('address')
 
-        try:
-            print("it doesnt work in the try block")
-            user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=4)
-            user.parents.address = address
-            user.save()
-            messages.success(request, "Parent Added Successfully!")
-            return redirect('add_parent')
-        except:
-            print("it runs perfectly but comes to execpt instead of stoppig in the try")
-            messages.error(request, "Failed to Add Parent!")
-            return redirect('add_parent')
+#         try:
+#             print("it doesnt work in the try block")
+#             user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=4)
+#             user.parents.address = address
+#             user.save()
+#             messages.success(request, "Parent Added Successfully!")
+#             return redirect('add_parent')
+#         except:
+#             print("it runs perfectly but comes to execpt instead of stoppig in the try")
+#             messages.error(request, "Failed to Add Parent!")
+#             return redirect('add_parent')
 
-def manage_parent(request):
-    parents = Parents.objects.all()
-    context = {
-        "parents": parents
-    }
-    return render(request, "hod_template/manage_parent_template.html", context)
+# def manage_parent(request):
+#     parents = Parents.objects.all()
+#     context = {
+#         "parents": parents
+#     }
+#     return render(request, "hod_template/manage_parent_template.html", context)
 
-def edit_parent(request, parent_id):
-    parent = Parents.objects.get(admin=parent_id)
+# def edit_parent(request, parent_id):
+#     parent = Parents.objects.get(admin=parent_id)
 
-    context = {
-        "parent": parent,
-        "id": parent_id
-    }
-    return render(request, "hod_template/edit_parent_template.html", context)
+#     context = {
+#         "parent": parent,
+#         "id": parent_id
+#     }
+#     return render(request, "hod_template/edit_parent_template.html", context)
 
-def edit_parent_save(request):
-    if request.method != "POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
-    else:
-        parent_id = request.POST.get('parent_id')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        address = request.POST.get('address')
+# def edit_parent_save(request):
+#     if request.method != "POST":
+#         return HttpResponse("<h2>Method Not Allowed</h2>")
+#     else:
+#         parent_id = request.POST.get('parent_id')
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         first_name = request.POST.get('first_name')
+#         last_name = request.POST.get('last_name')
+#         address = request.POST.get('address')
 
-        try:
-            # INSERTING into Customuser Model
-            user = CustomUser.objects.get(id=parent_id)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.email = email
-            if password != None and password != "":
-                user.set_password(password)
-            user.username = username
-            user.save()
+#         try:
+#             # INSERTING into Customuser Model
+#             user = CustomUser.objects.get(id=parent_id)
+#             user.first_name = first_name
+#             user.last_name = last_name
+#             user.email = email
+#             if password != None and password != "":
+#                 user.set_password(password)
+#             user.username = username
+#             user.save()
             
-            # INSERTING into Parent Model
-            parent_model = Parents.objects.get(admin=parent_id)
-            parent_model.address = address
-            parent_model.save()
+#             # INSERTING into Parent Model
+#             parent_model = Parents.objects.get(admin=parent_id)
+#             parent_model.address = address
+#             parent_model.save()
 
-            messages.success(request, "Parent Updated Successfully.")
-            return redirect('/edit_staff/'+parent_id)
+#             messages.success(request, "Parent Updated Successfully.")
+#             return redirect('/edit_staff/'+parent_id)
 
-        except:
-            messages.error(request, "Failed to Update Parent.")
-            return redirect('/edit_staff/'+parent_id)
+#         except:
+#             messages.error(request, "Failed to Update Parent.")
+#             return redirect('/edit_staff/'+parent_id)
 
-def delete_parent(request, parent_id):
-    parent = Parents.objects.get(admin=parent_id)
-    try:
-        parent.delete()
-        messages.success(request, "Parent Deleted Successfully.")
-        return redirect('manage_parent')
-    except:
-        messages.error(request, "Failed to Delete Parent.")
-        return redirect('manage_parent')
+# def delete_parent(request, parent_id):
+#     parent = Parents.objects.get(admin=parent_id)
+#     try:
+#         parent.delete()
+#         messages.success(request, "Parent Deleted Successfully.")
+#         return redirect('manage_parent')
+#     except:
+#         messages.error(request, "Failed to Delete Parent.")
+#         return redirect('manage_parent')
 ### Parent End
 
 # #semester
@@ -613,7 +613,7 @@ def add_student_save(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = "lincolnstudent12345"
-        parent_password = "password"
+        # parent_password = "password"
         address = request.POST.get('address')
 
         # course = request.POST.get('course')
@@ -624,7 +624,7 @@ def add_student_save(request):
 
         # try:
         user = CustomUser.objects.create_user(username=username, password=password, email=email, 
-        last_name=last_name, first_name=first_name, parent_password=parent_password, user_type=3)
+        last_name=last_name, first_name=first_name,  user_type=3)#parent_password=parent_password,
         user.students.address = address
         user.save()
         messages.success(request, "student Added Successfully!")
