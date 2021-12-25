@@ -981,13 +981,14 @@ def get_students(request):
     staff = Staffs.objects.all()
     students = Students.objects.filter(department=department).filter(intake=intake)
     attendance = Attendance.objects.filter(staff=staff).filter(department=department).filter(students=students)
-
+    att = Attendance.objects.all()
     context = {
         'department': department,
         'intake': intake,
         'students': students,
         'subject' : subject,
         'attendance':attendance,
+        'att':att,
     }
 
     return render(request, "hod_template/get_students.html", context)

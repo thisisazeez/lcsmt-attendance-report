@@ -39,5 +39,46 @@
         </div>
     </div>
     <!-- /.container-fluid -->
+
+
+
+    <div class="container-fluid">
+        <div class="card p-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Student ID</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Present</th>
+                        <th scope="col">Absent</th>
+                        <th scope="col">Medic Leave</th>
+                        <th scope="col">Date:
+                            <td>{% now "D" %} {% now "M" %} {% now "Y" %}</td>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <form method="POST" action="{% url 'submit_attendance' %}">
+                        {% csrf_token %} {% for at in att %}
+                        <tr>
+                            <td>{{at.id}}</td>
+                            <td>{{at.department.department_name}}</td>
+                            <td>{{at.student.admin.get_full_name}}</td>
+                            <!-- <td><input type="checkbox" name="{{at.subject.admin.get_full_name}}"></td>
+                            <td><input type="checkbox" name="{{at.student}}"></td>
+                            <td><input type="checkbox" name="{{at.staff}}"></td> -->
+                        </tr>
+                        {% endfor %}
+                        <input type="text" name="department" value="{{at.department.id}}" hidden>
+                        <input type="text" name="intake" value="{{at.intake.id}}" hidden>
+                        <input type="text" name="subject" value="{{at.subject.id}}" hidden>
+                        <!-- <input type="submit" value="Submit Attendance" class="btn btn-primary"> -->
+                        <!-- <input type="file" value="Upload Attendance" name="upload" class="btn btn-success"> -->
+                    </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
 {% endblock main_content %}
