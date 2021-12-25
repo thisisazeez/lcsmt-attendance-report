@@ -115,6 +115,11 @@ urlpatterns = [
     path('staff_add_result/', StaffViews.staff_add_result, name="staff_add_result"),
     path('add_t/', StaffViews.add_t, name="add_t"),
     # path('add_t_save/', StaffViews.add_t_save, name="saving"),
+
+
+    path('admin_view_attendance_admin/', HodViews.view_at, name="view_at"),
+    path('get_students_admin/', HodViews.get_students, name="get_students_admin"),
+    
     
     
     path('detail_t/', StaffViews.detail_t, name="detail_t"),

@@ -47,12 +47,22 @@
               </a>
             </li>
             
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               {% url 'add_parent' as add_parent %}
               <a href="{{ add_parent }}" class="nav-link {% if request.path == add_parent %} active {% endif %}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Add Parent
+                </p>
+              </a>
+            </li> -->  
+
+            <li class="nav-item">
+              {% url 'view_at' as view_at %}
+              <a href="{{ view_at }}" class="nav-link {% if request.path == view_at %} active {% endif %}">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Try View
                 </p>
               </a>
             </li>

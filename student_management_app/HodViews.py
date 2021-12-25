@@ -954,3 +954,40 @@ def student_profile(requtest):
 
 
 
+
+
+def view_at(request):
+    departments = Departments.objects.filter()
+    intakes = Intakes.objects.all()
+    subjects = Subjects.objects.all()
+    context = {
+        "departments": departments,
+        "intakes": intakes,
+        "subjects":subjects,
+    }
+    return render(request, "hod_template/view_at_template.html", context)
+
+@csrf_exempt
+def get_students(request):
+    # Getting Values from Ajax POST 'Fetch Student'
+    department_id = request.POST.get("department")
+    intake_id = request.POST.get("intake")
+    subject_id = request.POST.get("subject")
+
+    print(subject_id)
+    department = Departments.objects.get(id = department_id)
+    intake = Intakes.objects.get(id = intake_id)
+    subject = Subjects.objects.get(id = subject_id)
+    staff = Staffs.objects.all()
+    students = Students.objects.filter(department=department).filter(intake=intake)
+    attendance = Attendance.objects.filter(staff=staff).filter(department=department).filter(students=students)
+
+    context = {
+        'department': department,
+        'intake': intake,
+        'students': students,
+        'subject' : subject,
+        'attendance':attendance,
+    }
+
+    return render(request, "hod_template/get_students.html", context)
